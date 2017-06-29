@@ -178,18 +178,6 @@ public class ParticleLayer {
 
             case 7:
                 pep.atlasFile = "particle/pack.atlas";
-                assetm.load(chakra, ParticleEffect.class, pep);
-                assetm.finishLoading();
-                PePool = new ParticleEffectPool[1];
-                pe = assetm.get(chakra, ParticleEffect.class);
-                PePool[0] = new ParticleEffectPool(pe, 1, 5);
-                pooleff = PePool[0].obtain();
-                pooleff.setPosition(240, 400);
-                effects.add(pooleff);
-                break;
-
-            case 8:
-                pep.atlasFile = "particle/pack.atlas";
                 assetm.load(snow, ParticleEffect.class, pep);
                 assetm.finishLoading();
                 PePool = new ParticleEffectPool[1];
@@ -201,9 +189,14 @@ public class ParticleLayer {
                 effects.add(pooleff);
                 break;
 
+            case 8:
+                break;
+
             case 9:
                 break;
 
+            case 10:
+                break;
 
             case 11:
                 break;
@@ -215,6 +208,9 @@ public class ParticleLayer {
                 break;
 
             case 14:
+                break;
+
+            case 15:
                 break;
 			
 		default:

@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:weightSum="3">
@@ -11,7 +11,7 @@
         android:id="@+id/colorPicker"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.7"
         android:layout_marginBottom="10dp"
         android:background="@android:color/transparent"/>
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="3dp"
-        android:layout_weight="2"
+        android:layout_weight="2.3"
         android:padding="10dp">
 
         <LinearLayout
@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="R:255"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -63,7 +63,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="G:255"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:typeface="serif" />
 
                 <TextView
@@ -78,7 +78,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="B:255"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:typeface="serif" />
 
                 <Button
@@ -92,7 +92,7 @@
                     android:onClick="colorBackPick"
                     android:padding="10dp"
                     android:text="@string/setbckColor"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
 

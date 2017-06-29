@@ -1,10 +1,14 @@
 package com.mygdx.purefaithstudio.android;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.mygdx.purefaithstudio.Config;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -18,6 +22,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 	private CheckBoxPreference checkBoxTest,moveBox,setLock;
 	private ListPreference listTest;
     private int points=0;
+	private InterstitialAd mInterstitialAd;
 
 	@Override
 	protected void onPostCreate(Bundle bundle) {
@@ -57,6 +62,19 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 				return true;
 			}
 		});
+
+		mInterstitialAd = new InterstitialAd(this);
+		mInterstitialAd.setAdUnitId("ca-app-pub-5437679392990541/1888200515");
+
+		mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
+
+		mInterstitialAd.setAdListener(new AdListener() {
+			@Override
+			public void onAdClosed() {
+				// Load the next interstitial.
+				mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
+			}
+        });
 	}
 
 	private void openUrl(int i) {
@@ -122,6 +140,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 listTest.setSummary(listTest.getEntry());
                 Config.save();
             }
+            mInterstitialAd.show();
 			return true;
 		}
 		return false;

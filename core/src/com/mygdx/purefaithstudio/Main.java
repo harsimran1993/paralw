@@ -333,48 +333,43 @@ public class Main extends Base {
                 parallax = false;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/shana2.png"));
-        	break;
+        	    break;
             case 5:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/kiritoSAO.png"));
-        	break;
+        	    break;
 			case 6:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/yukatagirl.png"));
-			break;
-            case 7:
-                size=0;
-                parallax = false;
-                texture = null;
-                //texture[0]  = null;
-        	break;
-			case 8:
+			    break;
+			case 7:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/inori35.png"));
-			break;
-            case 9:
-                size=2;
+			    break;
+            case 8:
+                size=3;
                 parallax = true;
                 texture = new Texture[size];
-                texture[0] = new Texture(Gdx.files.internal("data/butter1.png"));
-                texture[1]  = new Texture(Gdx.files.internal("data/rocks.jpg"));
+                texture[0] = null;
+                texture[1] = new Texture(Gdx.files.internal("data/butter1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/rocks.jpg"));
+                break;
+            case 9:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0] = new Texture(Gdx.files.internal("data/ironcrack.png"));
+                texture[1] = new Texture(Gdx.files.internal("data/ironhand.png"));
+                texture[2] = new Texture(Gdx.files.internal("data/ironbase.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/city.jpg"));
                 break;
             case 10:
-                size=3;
-                Config.setBackColor(0,0,0);
-                parallax = true;
-                texture = new Texture[size];
-                texture[0] = new Texture(Gdx.files.internal("data/ironhand.png"));
-                texture[1] = new Texture(Gdx.files.internal("data/ironbase.png"));
-                texture[2]  = new Texture(Gdx.files.internal("data/city.jpg"));
-                break;
-            case 11:
                 size=3;
                 parallax = true;
                 texture = new Texture[size];
@@ -382,7 +377,7 @@ public class Main extends Base {
                 texture[1] = new Texture(Gdx.files.internal("data/ironhideA.png"));
                 texture[2]  = new Texture(Gdx.files.internal("data/ironhideback.jpg"));
                 break;
-            case 12:
+            case 11:
                 size=4;
                 parallax = true;
                 texture = new Texture[size];
@@ -392,20 +387,35 @@ public class Main extends Base {
                 texture[2] = new Texture(Gdx.files.internal("data/cutout3.png"));
                 texture[3] = new Texture(Gdx.files.internal("data/cutout4.png"));
                 break;
-            case 13:
+            case 12:
                 size=2;
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/chip.png"));
                 texture[1] = new Texture(Gdx.files.internal("data/chip1.png"));
                 break;
-            case 14:
-                size=3;
+            case 13:
+                size=4;
                 parallax = true;
                 texture = new Texture[size];
-                texture[0]  = new Texture(Gdx.files.internal("data/hulkbuster2.png"));
-                texture[1]  = new Texture(Gdx.files.internal("data/hulkbuster1.png"));
-                texture[2] = new Texture(Gdx.files.internal("data/hulkbuster.jpg"));
+                texture[0]  = new Texture(Gdx.files.internal("data/hulkbuster0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/hulkbuster2.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/hulkbuster1.png"));
+                texture[3] = new Texture(Gdx.files.internal("data/hulkbuster.jpg"));
+                break;
+            case 14:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/earthcrack.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/earthchip.png"));
+                break;
+            case 15:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/redcrack.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/redhulk.png"));
                 break;
             default:
                 size=1;

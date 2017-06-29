@@ -29,6 +29,7 @@ import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
@@ -148,6 +149,14 @@ public class ColorPicker extends View {
 
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
+       // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
+
+
+        Path path = new Path();
+        Paint clearPaint = new Paint();
+        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        canvas.drawRect(0, 0, 0, 0, clearPaint);
+
 
         // drawing color wheel
 
@@ -256,9 +265,11 @@ public class ColorPicker extends View {
         gradientRotationMatrix = new Matrix();
         gradientRotationMatrix.preRotate(270, width / 2, height / 2);
 
+        colorViewPath.reset();
         colorViewPath.arcTo(outerWheelRect, 270, -180);
         colorViewPath.arcTo(innerWheelRect, 90, 180);
 
+        valueSliderPath.reset();
         valueSliderPath.arcTo(outerWheelRect, 270, 180);
         valueSliderPath.arcTo(innerWheelRect, 90, -180);
 

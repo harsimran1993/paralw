@@ -12,6 +12,7 @@ public class Config {
 	public static String listTest = "0";
 	public static int points = 0;
 	public static float[] backColor = {0,0,0};
+    public static String promo="LWP#193#sin";
 
 	public static void load() {
         preferences = Gdx.app.getPreferences("preferences");

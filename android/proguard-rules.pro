@@ -67,4 +67,3 @@
 }
 
 -dontwarn android.security.NetworkSecurityPolicy
--keepresourcexmlattributenames vector

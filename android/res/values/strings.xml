@@ -22,14 +22,15 @@
         <item>Shakugan no Shana B</item>
         <item>Sword Art Online Kirito</item>
         <item>Yukata Anime Girl</item>
-        <item>Fire wheel(Chakra)</item>
-        <item>guilty crown inori</item>
+        <item>Guilty Crown Inori</item>
         <item>parallax-Butterly</item>
         <item>parallax-Ironmen</item>
-        <item>parallax-transformer</item>
-        <item>parallax-hills paper cut-out</item>
-        <item>parallax-autmun in cracks</item>
-        <item>parallax-hulkbuster parallax 3D</item>
+        <item>parallax-Transformer</item>
+        <item>parallax-Hills Paper Cut-Out</item>
+        <item>parallax-Screen Crack </item>
+        <item>parallax-Hulk-Buster</item>
+        <item>parallax-Earth Screen Crack</item>
+        <item>parallax-RED HULK</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -47,6 +48,7 @@
         <item>12</item>
         <item>13</item>
         <item>14</item>
+        <item>15</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
@@ -60,7 +62,7 @@
     <string name="url_more">market://search?q=pub:purefaithstudio</string>
     <string name="title_activity_set_wallpaper">Live-Wallpaper</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Promo</string>
     <string name="button">select wallpaper</string>
     <string name="setColor">Select Color Effect</string>
     <string name="setbckColor">Set Color</string>
