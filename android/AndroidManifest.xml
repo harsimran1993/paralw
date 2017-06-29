@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mygdx.purefaithstudio.android"
+    android:versionCode="3"
+    android:versionName="1.1.0">
+
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="26" />
+
+    <supports-screens android:anyDensity="true" />
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@drawable/logodog" >
+        <service android:name="com.mygdx.purefaithstudio.android.LWP_Android"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/wallpaper" />
+        </service>
+
+        <activity android:name="com.mygdx.purefaithstudio.android.Preferences"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity
+            android:name="com.mygdx.purefaithstudio.android.SetWallpaperActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

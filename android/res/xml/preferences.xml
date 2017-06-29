@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:key="settings_general" android:title="@string/settings_generalTitle">
+		<CheckBoxPreference android:key="checkBoxTest"
+							android:title="@string/settings_checkBoxTestTitle"
+							android:summary="@string/settings_checkBoxTestSummary"
+							android:defaultValue="false" />
+		<CheckBoxPreference android:key="moveBox"
+							android:title="@string/settings_MoveBoxTitle"
+							android:summary="@string/settings_MoveBoxSummary"
+							android:defaultValue="false" />
+
+		<CheckBoxPreference android:key="setLockScreen"
+			                android:title="@string/settings_SetLockTitle"
+			                android:summary="@string/settings_SetLockSummary"
+			                android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:key="Wallpapers" android:title="@string/settings_wallTitle">
+		<ListPreference android:key="listTest"
+						android:title="@string/settings_listTestTitle"
+						android:entries="@array/settings_listTestEntries"
+						android:entryValues="@array/settings_listTestEntryValues"
+						android:defaultValue="0" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:key="settings_extra" android:title="@string/settings_extraTitle">
+		<Preference android:key="more"
+					android:title="@string/settings_button_otherAppsTitle" />
+
+		<Preference android:key="support"
+					android:title="@string/settings_button_supportTitle"
+					android:summary="@string/support_email"
+					android:enabled="false" />
+	</PreferenceCategory>
+</PreferenceScreen>

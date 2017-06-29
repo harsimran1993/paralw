@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Live HD Wallpapers</string>
+    <string name="app_description">Anime n more Live Wallpaper.</string>
+    <string name="settings_generalTitle">Wallpaper Settings</string>
+    <string name="settings_wallTitle">Choose Wallpaper</string>
+    <string name="settings_extraTitle">Extras</string>
+    <string name="settings_checkBoxTestTitle">Touch Effects</string>
+    <string name="settings_MoveBoxTitle">OverTime Effects</string>
+    <string name="settings_SetLockTitle">Lock Screen Live Wallpaper</string>
+    <string name="settings_checkBoxTestSummary">Variation on effects with touch\n(Try multiple finger XD).</string>
+    <string name="settings_listTestTitle">Live Wallpaper</string>
+    <string name="settings_MoveBoxSummary">Variation on effects over a cyclic period.</string>
+    <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.</string>
+
+    <string-array name="settings_listTestEntries">
+        <item>Blue Exorcist A</item>
+        <item>FairyTale Natsu</item>
+        <item>Blue Exorcist B</item>
+        <item>Shakugan no Shana A</item>
+        <item>Shakugan no Shana B</item>
+        <item>Sword Art Online Kirito</item>
+        <item>Yukata Anime Girl</item>
+        <item>Fire wheel(Chakra)</item>
+        <item>guilty crown inori</item>
+        <item>parallax-Butterly</item>
+        <item>parallax-Ironmen</item>
+        <item>parallax-transformer</item>
+        <item>parallax-hills paper cut-out</item>
+        <item>parallax-autmun in cracks</item>
+        <item>parallax-hulkbuster parallax 3D</item>
+    </string-array>
+    <string-array name="settings_listTestEntryValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+
+    <string name="settings_button_otherAppsTitle">Other Apps from author</string>
+    <string name="settings_button_supportTitle">Need help?</string>
+
+    <!-- SYSTEM -->
+
+    <string name="settings_toast_unavailable">Google Play is unavailable</string>
+    <string name="service_name">LWPTemplate</string>
+    <string name="support_email">harsimran1994@gmail.com</string>
+    <string name="url_more">market://search?q=pub:purefaithstudio</string>
+    <string name="title_activity_set_wallpaper">Live-Wallpaper</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button">select wallpaper</string>
+    <string name="setColor">Select Color Effect</string>
+    <string name="setbckColor">Set Color</string>
+    <string name="earn">Earn Points</string>
+    <string name="WallPoints">WP:</string>
+
+</resources>
