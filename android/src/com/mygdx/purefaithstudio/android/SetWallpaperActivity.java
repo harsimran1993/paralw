@@ -15,8 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     Context context;
 	ColorPicker colorp;
 	TextView r, g, b,wp;
+	ImageButton colorCollapser;
+    LinearLayout colorBackLayout;
 	int color;
 	SharedPreferences prefs;
 	SharedPreferences.Editor editor;
@@ -46,6 +50,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		setContentView(R.layout.wallpaper_main);
 		context = getApplicationContext();
 		colorp = (ColorPicker) findViewById(R.id.colorPicker);
+        colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
+        colorBackLayout = (LinearLayout) findViewById(R.id.colorBackLayout);
 		r =  (TextView) findViewById(R.id.red);
 		g =  (TextView) findViewById(R.id.green);
 		b =  (TextView) findViewById(R.id.blue);
@@ -85,18 +91,18 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
         loadRewardedVideoAd();
 
-		/*
-		try {
-			Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-			intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
-			startActivity(intent);
-		} catch (Exception e) {
-			Log.e("harsim", "moved to chooser");
-			Intent intent = new Intent();
-			intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-			startActivity(intent);
-		}
-		*/
+		colorCollapser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (colorBackLayout.getVisibility() == View.VISIBLE) {
+                    view.setBackgroundResource(R.drawable.plus);
+                    colorBackLayout.setVisibility(View.GONE);
+                } else {
+                    view.setBackgroundResource(R.drawable.minus);
+                    colorBackLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 	}
 
 	@Override

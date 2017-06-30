@@ -3,24 +3,144 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:weightSum="3">
+    android:gravity="center">
 
 
-    <com.mygdx.purefaithstudio.android.ColorPicker
-        android:id="@+id/colorPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.7"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/transparent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:padding="3dp"
+        android:layout_margin="5dp">
+        <ImageButton
+            android:id="@+id/colorCollapser"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/plus"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:autoSizeMinTextSize="12sp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="Background Color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/colorBackLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="gone">
+
+        <com.mygdx.purefaithstudio.android.ColorPicker
+            android:id="@+id/colorPicker"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="0.75"
+            android:background="@android:color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/rounded2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <TextView
+                android:id="@+id/red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:autoSizeMinTextSize="12sp"
+                android:background="@drawable/rounded"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="R:255"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:autoSizeMinTextSize="12sp"
+                android:background="@drawable/rounded"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="G:255"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:autoSizeMinTextSize="12sp"
+                android:background="@drawable/rounded"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="B:255"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <Button
+                android:id="@+id/bckcolor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:autoSizeMinTextSize="12sp"
+                android:background="@drawable/rounded"
+                android:onClick="colorBackPick"
+                android:padding="5dp"
+                android:text="@string/setbckColor"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <!--  <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:layout_weight="2"
+              android:gravity="center">-->
+            <!--    <Button
+              android:id="@+id/color"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="15dp"
+              android:gravity="center"
+              android:textSize="15sp"
+              android:typeface="serif"
+              android:text="@string/setColor"
+              android:onClick="colorPick" />-->
+            <!-- </LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="3dp"
-        android:layout_weight="2.3"
-        android:padding="10dp">
+        android:layout_weight="0.2"
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,124 +153,35 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/rounded2"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="6dp">
-
-                <TextView
-                    android:id="@+id/red"
-                    android:layout_width="wrap_content"
-                    android:minWidth="50dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="50sp"
-                    android:layout_margin="5dp"
-                    android:autoSizeMinTextSize="12sp"
-                    android:background="@drawable/rounded"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="R:255"
-                    android:textSize="14sp"
-                    android:typeface="serif" />
-
-                <TextView
-                    android:id="@+id/green"
-                    android:layout_width="wrap_content"
-                    android:minWidth="50dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="50sp"
-                    android:layout_margin="5dp"
-                    android:autoSizeMinTextSize="12sp"
-                    android:background="@drawable/rounded"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="G:255"
-                    android:textSize="14sp"
-                    android:typeface="serif" />
-
-                <TextView
-                    android:id="@+id/blue"
-                    android:layout_width="wrap_content"
-                    android:minWidth="50dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="50sp"
-                    android:layout_margin="5dp"
-                    android:autoSizeMinTextSize="12sp"
-                    android:background="@drawable/rounded"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="B:255"
-                    android:textSize="14sp"
-                    android:typeface="serif" />
-
-                <Button
-                    android:id="@+id/bckcolor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="50sp"
-                    android:layout_margin="5dp"
-                    android:autoSizeMinTextSize="12sp"
-                    android:background="@drawable/rounded"
-                    android:onClick="colorBackPick"
-                    android:padding="10dp"
-                    android:text="@string/setbckColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <!--  <LinearLayout
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:padding="5dp"
-                  android:layout_weight="2"
-                  android:gravity="center">-->
-                <!--    <Button
-                  android:id="@+id/color"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:padding="15dp"
-                  android:gravity="center"
-                  android:textSize="15sp"
-                  android:typeface="serif"
-                  android:text="@string/setColor"
-                  android:onClick="colorPick" />-->
-                <!-- </LinearLayout>-->
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/rounded2"
-                android:gravity="center"
-                android:padding="5dp">
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/pointLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="50sp"
                     android:layout_margin="5dp"
                     android:autoSizeMinTextSize="12sp"
                     android:background="@drawable/rounded"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/WallPoints"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:typeface="serif" />
 
                 <TextView
                     android:id="@+id/pointText"
                     android:layout_width="wrap_content"
-                    android:minWidth="70dp"
+                    android:minWidth="60dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="50sp"
                     android:layout_margin="5dp"
                     android:autoSizeMinTextSize="12sp"
                     android:background="@drawable/rounded"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="0"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:typeface="serif" />
 
                 <Button
@@ -160,16 +191,26 @@
                     android:layout_margin="5dp"
                     android:autoSizeMinTextSize="12sp"
                     android:background="@drawable/rounded3"
-                    android:minHeight="50sp"
-                    android:minWidth="147dp"
                     android:onClick="earn"
-                    android:padding="10dp"
+                    android:padding="6dp"
                     android:text="@string/earn"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
             </LinearLayout>
 
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:numColumns="2"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp" />
         </LinearLayout>
     </ScrollView>
 
@@ -193,7 +234,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:background="@drawable/rounded"
                     android:onClick="onClick"
-                    android:padding="15dp"
+                    android:padding="5dp"
                     android:text="@string/button"
                     android:textSize="18sp"
                     android:textStyle="bold"
