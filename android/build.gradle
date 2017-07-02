@@ -132,5 +132,8 @@ idea {
 }
 dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.google.android.gms:play-services-ads:11.0.0'
+    compile 'com.google.firebase:firebase-ads:11.0.2'
+    compile 'com.google.firebase:firebase-core:11.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

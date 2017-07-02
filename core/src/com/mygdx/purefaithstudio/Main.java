@@ -27,7 +27,7 @@ public class Main extends Base {
 	private TextureRegion fbr;
     private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f;
     private float accelY=0,lastAccelY=0;
-    private float accelZ=0,lastAccelZ=0;
+    //private float accelZ=0,lastAccelZ=0;
     private int size=0;
     private boolean parallax = false;
     private BitmapFont font;
@@ -38,19 +38,19 @@ public class Main extends Base {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 480, 800);
 		boolean available = Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer);
-		System.out.println(available);
+		//System.out.println(available);
 	}
 
 	@Override
 	public void show() {
 		 Config.load();
+        System.out.println("show");
 		//fbw=480;
 		//fbh=800;
         resetCamera(480,800);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
-		batch.enableBlending();
-        //setInputProcessor();
+        setInputProcessor();
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -110,7 +110,7 @@ public class Main extends Base {
 		} else {
 			touched = false;
 		}*/
-		if (!com.mygdx.purefaithstudio.Config.listTest.equals(ParticleLayer.EveNo)) {
+		if (!(Config.listTest.equals(ParticleLayer.EveNo))) {
             Gdx.app.log("harsim","partlay reloaded");
 			partlay.loadeffect();
             loadImageTexture();
@@ -121,8 +121,8 @@ public class Main extends Base {
         accelX = accelX * fact+ lastAccelX * (1-fact);
 	    accelY = Gdx.input.getAccelerometerY() -4;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
-	   accelZ = Gdx.input.getAccelerometerZ();
-        accelZ = accelZ * fact+ lastAccelZ * (1-fact);
+	   /* accelZ = Gdx.input.getAccelerometerZ() ;
+        accelZ = accelZ * fact+ lastAccelZ * (1-fact);*/
 
 		draw(delta); // Main draw part
 
@@ -132,14 +132,12 @@ public class Main extends Base {
         if (Math.abs(accelY - lastAccelY) > thresh) {
             lastAccelY = accelY;
         }
-        if (Math.abs(accelZ - lastAccelZ) > thresh) {
+       /* if (Math.abs(accelZ - lastAccelZ) > thresh) {
             lastAccelZ = accelZ;
-        }
+        }*/
         if (isAndroid)
 		limitFPS();
 
-		if (!isAndroid && Gdx.input.isKeyPressed(Keys.ESCAPE))
-			Gdx.app.exit();
 	}
 
 	private void draw(float delta) {
@@ -207,7 +205,7 @@ public class Main extends Base {
         //particle effects layer
         batch.draw(fbr, 0, 0, 480, 800);
         //onscreen acclero debug
-      /*  font.draw(batch,"accelX:"+accelX,10,780);
+        /*font.draw(batch,"accelX:"+accelX,10,780);
         font.draw(batch,"accelY:"+accelY,10,760);
         font.draw(batch,"accelZ"+accelZ,10,740);*/
         batch.end();
@@ -284,12 +282,21 @@ public class Main extends Base {
             @Override
             public boolean keyTyped(char character) {
                 // TODO Auto-generated method stub
+                    if (!isAndroid && Gdx.input.isKeyPressed(Keys.ESCAPE))
+                        Gdx.app.exit();
+                    if(!isAndroid && Gdx.input.isKeyPressed(Keys.RIGHT)) {
+                        Config.listTest = ""+(Integer.parseInt(Config.listTest) + 1);
+                    }
+                    if(!isAndroid && Gdx.input.isKeyPressed(Keys.LEFT)) {
+                        Config.listTest = ""+(Integer.parseInt(Config.listTest) - 1);
+                    }
                 return false;
             }
 
             @Override
             public boolean keyDown(int keycode) {
                 // TODO Auto-generated method stub
+
                 return false;
             }
         });
@@ -303,7 +310,7 @@ public class Main extends Base {
             }
             texture = null;
         }
-        switch(Integer.parseInt(com.mygdx.purefaithstudio.Config.listTest)){
+        switch(Integer.parseInt(Config.listTest)){
             case 0:
                 size=1;
                 parallax = false;

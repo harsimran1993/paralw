@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/grid_color_selector"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/lock"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/lock"
+        android:layout_gravity="center_horizontal|center_vertical">
+    </ImageView>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20dip"
+        android:layout_gravity="center_horizontal|bottom"
+        android:padding="12dp"
+        android:background="#AA000000"
+        android:textColor="#ffffffff"
+        android:textSize="12sp"
+        android:text="Image-Name"/>
+
+</FrameLayout>

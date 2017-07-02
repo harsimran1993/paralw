@@ -3,6 +3,7 @@ package com.mygdx.purefaithstudio.android;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mygdx.purefaithstudio.Config;
 
 import android.content.Intent;
@@ -23,6 +24,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 	private ListPreference listTest;
     private int points=0;
 	private InterstitialAd mInterstitialAd;
+	private FirebaseAnalytics mFirebaseAnalytics;
 
 	@Override
 	protected void onPostCreate(Bundle bundle) {
@@ -50,7 +52,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		setLock.setOnPreferenceChangeListener(this);
 
 		listTest = (ListPreference) findPreference("listTest");
-		listTest.setValueIndex(Integer.valueOf(Config.listTest));
+		listTest.setValueIndex(Integer.parseInt(Config.listTest));
 		listTest.setSummary(listTest.getEntry());
 		listTest.setOnPreferenceChangeListener(this);
 
@@ -75,6 +77,12 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 				mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
 			}
         });
+
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+		Bundle params = new Bundle();
+		params.putString("Activity", "launcher");
+		params.putString("WP", ""+Config.points);
+		mFirebaseAnalytics.logEvent("share_image", params);
 	}
 
 	private void openUrl(int i) {

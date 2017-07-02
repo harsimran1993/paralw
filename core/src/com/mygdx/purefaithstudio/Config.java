@@ -8,8 +8,8 @@ public class Config {
 	// Android have a lot of shit in shared preferences part.
 	// Just don't touch a name ))
 	public static Preferences preferences = null;// = Gdx.app.getPreferences("preferences");
-	public static boolean lockScreen=false,persistent = false,moving=false,effectColorChange=false,backColorchange=false;
-	public static String listTest = "0";
+	public static boolean lockScreen=false,persistent = false,moving=false,backColorchange=false;
+	public static String listTest = "12";
 	public static int points = 0;
 	public static float[] backColor = {0,0,0};
     public static String promo="LWP#193#sin";
@@ -22,7 +22,7 @@ public class Config {
                     !preferences.contains("moveBox")  )
                 save();
 
-            listTest = preferences.getString("listTest", "0");
+            //listTest = preferences.getString("listTest", "0");
             persistent = preferences.getBoolean("checkBoxTest", false);
             moving = preferences.getBoolean("moveBox", false);
             //loadPoints();

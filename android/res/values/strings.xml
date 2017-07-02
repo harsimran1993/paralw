@@ -69,4 +69,40 @@
     <string name="earn">Earn Points</string>
     <string name="WallPoints">WP:</string>
 
+    <string-array name="image_ids">
+        <item>@drawable/image1</item>
+        <item>@drawable/image2</item>
+        <item>@drawable/image3</item>
+        <item>@drawable/image4</item>
+        <item>@drawable/image5</item>
+        <item>@drawable/image6</item>
+        <item>@drawable/image7</item>
+        <item>@drawable/image8</item>
+        <item>@drawable/image9</item>
+        <item>@drawable/image10</item>
+        <item>@drawable/image11</item>
+        <item>@drawable/image12</item>
+        <item>@drawable/image13</item>
+        <item>@drawable/image14</item>
+        <item>@drawable/image15</item>
+        <item>@drawable/image16</item>
+    </string-array>
+    <string-array name="image_names">
+        <item>Blue Excorcist</item>
+        <item>FairyTail-Natsu</item>
+        <item>Blue Excorcist 2</item>
+        <item>Shana</item>
+        <item>Shana 2</item>
+        <item>Sword Art Online</item>
+        <item>Yukata Snow</item>
+        <item>Guilty Crown</item>
+        <item>parallax-Butterly</item>
+        <item>parallax-Ironmen</item>
+        <item>parallax-Transformer</item>
+        <item>parallax-Paper Cut-Out</item>
+        <item>parallax-Screen Crack </item>
+        <item>parallax-Hulk-Buster</item>
+        <item>parallax-Screen Crack 2</item>
+        <item>parallax-RED HULK</item>
+    </string-array>
 </resources>

@@ -1,21 +1,15 @@
 package com.mygdx.purefaithstudio.android;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.mygdx.purefaithstudio.Config;
 import android.app.WallpaperManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,37 +19,58 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.mygdx.purefaithstudio.Config;
+
+import java.util.ArrayList;
 
 public class SetWallpaperActivity extends AppCompatActivity implements RewardedVideoAdListener{
-    //ads
+    //google
 	private RewardedVideoAd mAd;
     private InterstitialAd mInterstitialAd;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    //me
     private boolean promoDone=false;
-    Context context;
-	ColorPicker colorp;
-	TextView r, g, b,wp;
-	ImageButton colorCollapser;
-    LinearLayout colorBackLayout;
-	int color;
-	SharedPreferences prefs;
-	SharedPreferences.Editor editor;
+    private Context context;
+    private ColorPicker colorp;
+    private TextView r, g, b,wp,loadingVid;
+    Button earn;
+    private ImageButton colorCollapser;
+    private LinearLayout colorBackLayout;
+    private int color;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+    private GridView gridView;
+    private GridViewImageAdapter gridAdapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wallpaper_main);
-		context = getApplicationContext();
+        MobileAds.initialize(this, "ca-app-pub-5437679392990541~1941696510");
+        context = getApplicationContext();
 		colorp = (ColorPicker) findViewById(R.id.colorPicker);
-        colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
-        colorBackLayout = (LinearLayout) findViewById(R.id.colorBackLayout);
 		r =  (TextView) findViewById(R.id.red);
 		g =  (TextView) findViewById(R.id.green);
 		b =  (TextView) findViewById(R.id.blue);
 		wp = (TextView) findViewById(R.id.pointText);
+        loadingVid = (TextView) findViewById(R.id.Loading);
+        earn = (Button) findViewById(R.id.earnbtn);
 		prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 		editor = prefs.edit();
 		// center text
@@ -67,12 +82,63 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		r.setText("R:" + Color.red(color));
 		g.setText("G:" + Color.green(color));
 		b.setText("B:" + Color.blue(color));
+        /*editor.putInt("points",300);
+        editor.commit();*/
 		Config.points = prefs.getInt("points", 0);
 		wp.setText("" + Config.points);
 
+        //colorPicker Collapse
+        colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
+        colorBackLayout = (LinearLayout) findViewById(R.id.colorBackLayout);
+		colorCollapser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (colorBackLayout.getVisibility() == View.VISIBLE) {
+                    view.setBackgroundResource(R.drawable.plus);
+                    colorBackLayout.setVisibility(View.GONE);
+                } else {
+                    view.setBackgroundResource(R.drawable.minus);
+                    colorBackLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        //Image grid
+        gridView = (GridView) findViewById(R.id.imageGrid);
+        gridAdapter = new GridViewImageAdapter(this,R.layout.lwitem,getData());
+        gridView.setAdapter(gridAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position * 10 < (Config.points + 40)){
+                    Config.listTest = ""+position;
+                    editor.putString("listTest",""+position);
+                    editor.commit();
+                    try {
+                        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+                        if(Config.lockScreen)
+                            intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
+                        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("harsim", "moved to chooser");
+                        Intent intent = new Intent();
+                        intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
+                        startActivity(intent);
+                    }
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }
+                }
+            }
+        });
+
         //ads
-		mAd = MobileAds.getRewardedVideoAdInstance(this);
-		mAd.setRewardedVideoAdListener(this);
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+        loadRewardedVideoAd();
+
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-5437679392990541/1888200515");
 
@@ -87,23 +153,14 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
         });
 
+        //analytics
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("Activity", "launcher");
+        params.putString("WP", ""+Config.points);
+        mFirebaseAnalytics.logEvent("share_image", params);
 
-
-        loadRewardedVideoAd();
-
-		colorCollapser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (colorBackLayout.getVisibility() == View.VISIBLE) {
-                    view.setBackgroundResource(R.drawable.plus);
-                    colorBackLayout.setVisibility(View.GONE);
-                } else {
-                    view.setBackgroundResource(R.drawable.minus);
-                    colorBackLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-	}
+    }
 
 	@Override
 	protected void onResume() {
@@ -128,20 +185,15 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         }
-	}
 
-	/*public void colorPick(View view) {
-		color = colorp.getColor();
-		Log.e("harsim", "" + color);
-		r.setText("" + Color.red(color));
-		g.setText("" + Color.green(color));
-		b.setText("" + Color.blue(color));
-		Config.color[0] = Color.red(color);
-		Config.color[1] = Color.green(color);
-		Config.color[2] = Color.blue(color);
-        Config.effectColorChange =true;
-		//Config.saveColor();
-	}*/
+        // [START wallpaper]
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, ""+Config.listTest);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Wallpaper_Selected");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        // [END image_view_event]
+	}
 
 	public void colorBackPick(View view) {
 		color = colorp.getColor();
@@ -183,7 +235,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                     public void onClick(DialogInterface dialog, int which) {
                         String m_Text = input.getText().toString();
                         if (m_Text.equals(Config.promo)) {
-                            editor.putInt("points", 50);
+                            editor.putInt("points", 80);
                             editor.putBoolean("promo",true);
                             editor.commit();
                             wp.setText("" + prefs.getInt("points", 0));
@@ -223,16 +275,17 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 			mAd.show();
 		}
 		else{
-			Toast.makeText(this, "Loading!!! Try Again in a While!!!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	//ads id
+
+	//ads
 	private void loadRewardedVideoAd() {
 		mAd.loadAd("ca-app-pub-5437679392990541/4895162915", new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
 	}
 	@Override
 	public void onRewardedVideoAdLoaded() {
-
+        earn.setVisibility(View.VISIBLE);
+        loadingVid.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -247,7 +300,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	@Override
 	public void onRewardedVideoAdClosed() {
-
+        loadRewardedVideoAd();
+        earn.setVisibility(View.GONE);
+        loadingVid.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -265,8 +320,99 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	@Override
 	public void onRewardedVideoAdFailedToLoad(int i) {
-		Toast.makeText(this, "Reward Ads Failed To Load!!! trying again!!!", Toast.LENGTH_SHORT).show();
-
+        loadRewardedVideoAd();
 
 	}
+
+	private ArrayList<ImageItem> getData(){
+        final ArrayList<ImageItem> imageItems = new ArrayList<>();
+        TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
+        TypedArray names = getResources().obtainTypedArray(R.array.image_names);
+        for (int i = 0; i < imgs.length(); i++) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgs.getResourceId(i, -1));
+            imageItems.add(new ImageItem(bitmap, names.getString(i)));
+        }
+        return imageItems;
+    }
+
+	/*private class ImageData{
+        public String imageURL,imageName;
+        public ImageData(String imageURL,String imageName){
+            this.imageName = imageName;
+            this.imageURL = imageURL;
+        }
+    }
+	public class DownloadImage extends AsyncTask<ArrayList<ImageData>, Integer, Long>{
+
+        @Override
+        protected Long doInBackground(ArrayList<ImageData>... imgData) {
+            int count = imgData.length;
+            long totalSize = 0;
+            int i=0;
+            for (ImageData imd:imgData[0]) {
+                i++;
+                try {
+                    downloadImageURL(imd.imageURL,context,imd.imageName);
+                publishProgress(i);
+                // Escape early if cancel() is called
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (isCancelled()) break;
+            }
+            return totalSize;
+        }
+        protected void onProgressUpdate(Integer... progress) {
+            //setProgressPercent(progress[0]);
+        }
+
+        protected void onPostExecute(Long result) {
+            showDialog(0);
+        }
+
+    }
+
+    public Bitmap loadLocalImage(String fileName, Context context) throws FileNotFoundException {
+        File imageFile = new File(getSaveFolder(context),fileName);
+        InputStream inputStream = new FileInputStream(imageFile);
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = 1;
+        bitmapOptions.inJustDecodeBounds = false;
+        Bitmap wallpaperBitmap = BitmapFactory.decodeStream(inputStream,null,bitmapOptions);
+        return wallpaperBitmap;
+    }
+
+    public void downloadImageURL(String imageUrl,Context context,String fileName) throws IOException {
+        URL wallpaperURL = new URL(imageUrl);
+        URLConnection con =  wallpaperURL.openConnection();
+        InputStream inputStream = new BufferedInputStream(wallpaperURL.openStream(),10240);
+        File localDir = getSaveFolder(context);
+        File imageFile = new File(localDir,fileName);
+        FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+
+        byte buffer[] = new byte[1024];
+        int datasize;
+        int loadsize = 0;
+        while((datasize = inputStream.read(buffer))!= -1){
+            loadsize += datasize;
+            fileOutputStream.write(buffer,0,datasize);
+        }
+        fileOutputStream.close();
+
+
+    }
+
+    public File getSaveFolder(Context context){
+        File dataDir = null;
+        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            dataDir = new File(Environment.getExternalStorageDirectory(),"LWPData");
+            if(!dataDir.isDirectory())
+                dataDir.mkdir();
+        }
+        if(!dataDir.isDirectory())
+            dataDir = context.getFilesDir();
+
+        return dataDir;
+    }*/
+
 }

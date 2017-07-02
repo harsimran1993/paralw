@@ -14,7 +14,7 @@ public class ParticleLayer {
     /*String vertexShader;
     String fragmentShader;
     ShaderProgram shaderProgram;*/
-	public static String EveNo = "1";
+	public static String EveNo = "0";
 	public static int LWcase = 0;
 	public final String flame = "particle/enemage.party";
 	public final String blueflame = "particle/mage.party";
@@ -56,7 +56,7 @@ public class ParticleLayer {
         dispose();
         assetm = new AssetManager();
 		EveNo = Config.listTest;
-		LWcase = Integer.parseInt(Config.listTest);
+		LWcase = Integer.parseInt(EveNo);
 		effects.clear();
 		switch (LWcase) {
 
@@ -232,9 +232,9 @@ public class ParticleLayer {
 
 	public void update(float delta) {
         pulse(delta,0.5f);
-        if(LWcase == 7){
+        /*if(LWcase == 7){
         	rotateChakra(delta);
-        }
+        }*/
 		for (PooledEffect poole : effects) {
 			poole.update(delta);
 		}
