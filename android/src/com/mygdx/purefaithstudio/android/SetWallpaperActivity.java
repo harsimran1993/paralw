@@ -105,7 +105,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
         //Image grid
         gridView = (GridView) findViewById(R.id.imageGrid);
-        gridAdapter = new GridViewImageAdapter(this,R.layout.lwitem,getData());
+        gridAdapter = new GridViewImageAdapter(SetWallpaperActivity.this,R.layout.lwitem,getData());
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -169,7 +169,12 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		Log.e("harsim", "" + prefs.getInt("points", 0));
 	}
 
-	public void onClick(View view) {
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void onClick(View view) {
 		try {
 			Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
             if(Config.lockScreen)
@@ -329,8 +334,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
         TypedArray names = getResources().obtainTypedArray(R.array.image_names);
         for (int i = 0; i < imgs.length(); i++) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgs.getResourceId(i, -1));
-            imageItems.add(new ImageItem(bitmap, names.getString(i)));
+            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i)));
         }
         return imageItems;
     }

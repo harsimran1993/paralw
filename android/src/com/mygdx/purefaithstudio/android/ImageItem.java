@@ -1,27 +1,26 @@
 package com.mygdx.purefaithstudio.android;
 
-import android.graphics.Bitmap;
 
 /**
  * Created by harsimran singh on 01-07-2017.
  */
 
 public class ImageItem {
-    private Bitmap image;
+    private int imageID;
     private String title;
 
-    public ImageItem(Bitmap image, String title) {
+    public ImageItem(int imageID, String title) {
         super();
-        this.image = image;
+        this.imageID = imageID;
         this.title = title;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public int getImage() {
+        return imageID;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImage(int imageID) {
+        this.imageID = imageID;
     }
 
     public String getTitle() {
