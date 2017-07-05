@@ -3,13 +3,11 @@ package com.mygdx.purefaithstudio.android;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mygdx.purefaithstudio.Config;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -24,7 +22,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 	private ListPreference listTest;
     private int points=0;
 	private InterstitialAd mInterstitialAd;
-	private FirebaseAnalytics mFirebaseAnalytics;
+    private SeekBarPreference seekBar;
 
 	@Override
 	protected void onPostCreate(Bundle bundle) {
@@ -40,7 +38,8 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		checkBoxTest = (CheckBoxPreference) findPreference("checkBoxTest");
 		checkBoxTest.setChecked(Config.persistent);
 		checkBoxTest.setOnPreferenceChangeListener(this);
-
+		/*PreferenceCategory mCategory =(PreferenceCategory) findPreference("settings_general");
+		mCategory.removePreference(checkBoxTest);*/
 
         moveBox = (CheckBoxPreference) findPreference("moveBox");
         moveBox.setChecked(Config.moving);
@@ -55,6 +54,9 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		listTest.setValueIndex(Integer.parseInt(Config.listTest));
 		listTest.setSummary(listTest.getEntry());
 		listTest.setOnPreferenceChangeListener(this);
+
+        seekBar = (SeekBarPreference) findPreference("Sensitivity");
+        seekBar.setDefaultValue((int)(Config.Sensitivity * 10));
 
 		Preference more = (Preference) findPreference("more");
 		more.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -77,12 +79,6 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 				mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
 			}
         });
-
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-		Bundle params = new Bundle();
-		params.putString("Activity", "launcher");
-		params.putString("WP", ""+Config.points);
-		mFirebaseAnalytics.logEvent("share_image", params);
 	}
 
 	private void openUrl(int i) {

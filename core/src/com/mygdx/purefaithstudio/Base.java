@@ -15,7 +15,7 @@ public class Base implements Screen {
 	public boolean isAndroid;
 
 	private long diff, start;
-	private final float targetFPS = 36f; // 20-30 is enough
+	private final float targetFPS = 40f; // 20-30 is enough
 	private final long targetDelay = 1000 / (long) targetFPS;
 
 	public Base(Game game, Resolver resolver) {

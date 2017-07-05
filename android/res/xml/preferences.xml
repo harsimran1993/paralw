@@ -4,7 +4,7 @@
 		<CheckBoxPreference android:key="checkBoxTest"
 							android:title="@string/settings_checkBoxTestTitle"
 							android:summary="@string/settings_checkBoxTestSummary"
-							android:defaultValue="false" />
+							android:defaultValue="false"/>
 		<CheckBoxPreference android:key="moveBox"
 							android:title="@string/settings_MoveBoxTitle"
 							android:summary="@string/settings_MoveBoxSummary"
@@ -16,6 +16,16 @@
 			                android:defaultValue="false" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory android:key="Accelerometer" android:title="@string/SeekCat">
+
+        <com.mygdx.purefaithstudio.android.SeekBarPreference
+            android:key="Sensitivity"
+            android:title="Sensitivity"
+            android:defaultValue="32"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:key="Wallpapers" android:title="@string/settings_wallTitle">
 		<ListPreference android:key="listTest"
 						android:title="@string/settings_listTestTitle"

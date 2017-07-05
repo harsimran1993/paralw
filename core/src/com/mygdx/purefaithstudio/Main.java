@@ -21,7 +21,6 @@ public class Main extends Base {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Texture texture[];
-	private Vector3 touch; // Not Vector2 because camera.unproject need Vector3 :\
 	private ParticleLayer partlay;
 	private FrameBuffer fbo;
 	private TextureRegion fbr;
@@ -37,52 +36,43 @@ public class Main extends Base {
 		// Never put "show" part here
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 480, 800);
-		boolean available = Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer);
-		//System.out.println(available);
 	}
 
 	@Override
 	public void show() {
 		 Config.load();
-        System.out.println("show");
-		//fbw=480;
-		//fbh=800;
         resetCamera(480,800);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
-        setInputProcessor();
-
+       if(!parallax) {
+           setInputProcessor();
+       }
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-		touch = new Vector3();
-		partlay = new ParticleLayer();
-		partlay.loadeffect();
+        partlay = new ParticleLayer();
+        partlay.loadeffect();
 		loadImageTexture();
+        if (fbo == null) {
+            fbo = new FrameBuffer(Format.RGBA8888, 480, 800, false);
+            fbr = new TextureRegion(fbo.getColorBufferTexture());
+            fbr.flip(false, true);
+        }
 		//batch.setShader(partlay.shaderProgram);
 		// resetCamera(sW,sH);
-		if (fbo == null) {
-			fbo = new FrameBuffer(Format.RGBA8888, 480, 800, false);
-			fbr = new TextureRegion(fbo.getColorBufferTexture());
-			fbr.flip(false, true);
-		}
 	}
-
-	public void pause() {
-	}
-
 	@Override
 	public void dispose() {
 		batch.dispose();
-		// texture.dispose();
         font.dispose();
 		if(partlay !=null)
 		partlay.dispose();
 		if(fbo != null)
 		fbo.dispose();
-		for(Texture t:texture) {
-			if (t != null)
-				t.dispose();
-		}
+        if(texture !=null)
+            for(Texture t:texture) {
+                if (t != null)
+                    t.dispose();
+            }
         fbr.getTexture().dispose();
         texture = null;
         fbo = null;
@@ -98,32 +88,22 @@ public class Main extends Base {
 
 	@Override
 	public void render(float delta) {
-
-		/*if (Gdx.input.isTouched()) {
-			touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			touch.x *= 480 / sW;
-			touch.y *= 800 / sH;
-			touch.y = 800 - touch.y;
-			// camera.unproject(touch);
-
-			touched = true;
-		} else {
-			touched = false;
-		}*/
 		if (!(Config.listTest.equals(ParticleLayer.EveNo))) {
             Gdx.app.log("harsim","partlay reloaded");
-			partlay.loadeffect();
+            if(partlay!=null)
+			    partlay.loadeffect();
             loadImageTexture();
 		}
 		delta = delta > 0.2f ? 0.2f : delta;
-		partlay.update(delta);
+        if(partlay!=null)
+		    partlay.update(delta);
+        //accelerometer
 		accelX = Gdx.input.getAccelerometerX();
         accelX = accelX * fact+ lastAccelX * (1-fact);
-	    accelY = Gdx.input.getAccelerometerY() -4;
+	    accelY = Gdx.input.getAccelerometerY() -4.5f;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
 	   /* accelZ = Gdx.input.getAccelerometerZ() ;
         accelZ = accelZ * fact+ lastAccelZ * (1-fact);*/
-
 		draw(delta); // Main draw part
 
         if (Math.abs(accelX - lastAccelX) > thresh) {
@@ -156,7 +136,7 @@ public class Main extends Base {
         if(texture !=null) {
             for (int i = size - 1; i > 0; i--) {
                 if (texture[i] != null) {
-                    batch.draw(texture[i], -60 + (accelX * i * 4), -70 + (accelY * i * 4), 600, 900);
+                    batch.draw(texture[i], -60 -(15 * i) + (accelX * i * Config.Sensitivity), -70 -(22*i)+ (accelY * i * Config.Sensitivity), 600+(30*i), 900+(44*i));
                 }
             }
         }
@@ -170,44 +150,27 @@ public class Main extends Base {
                 batch.draw(texture[0], -20+accelX * 2, 0, 520, 800);
             }
         }
-       /* //cloud layer
-        if(size > 3) {
-            if (texture[3] != null) {
-                batch.draw(texture[3], -60 + (accelX * 3),-70+accelY * 3, 600, 900);
-            }
-        }
-        //body layers for parallax
-        if(size > 2) {
-            if (texture[2] != null) {
-                batch.draw(texture[2], -60+accelX * 1.5f, -70+accelY *1.5f, 600, 900);
-            }
-        }
-        //fix layer
-        if(size > 1) {
-            if (texture[1] != null) {
-                batch.draw(texture[1], -60 , -70 , 600, 900);
-            }
-        }*/
 
         //batch.setShader(null);
-        fbo.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //batch.setColor(Config.color[0]/255.0f, Config.color[1] / 255.0f, Config.color[2]/255.0f,0.6f);
-        //batch.setColor(1,1,1,0.8f);
-        if (partlay.pe !=null)
+        if (partlay.pe !=null) {
+            fbo.begin();
+            Gdx.gl.glClearColor(0, 0, 0, 0);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            //batch.setColor(Config.color[0]/255.0f, Config.color[1] / 255.0f, Config.color[2]/255.0f,0.6f);
+            //batch.setColor(1,1,1,0.8f);
             partlay.pe.setEmittersCleanUpBlendFunction(false);
-        partlay.render(batch);
-        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        //batch.setColor(1,1,1,1);
+            partlay.render(batch);
+            batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            //batch.setColor(1,1,1,1);
 
-        fbo.end();
-        //particle effects layer
-        batch.draw(fbr, 0, 0, 480, 800);
+            fbo.end();
+            //particle effects layer
+            batch.draw(fbr, 0, 0, 480, 800);
+        }
         //onscreen acclero debug
-        /*font.draw(batch,"accelX:"+accelX,10,780);
-        font.draw(batch,"accelY:"+accelY,10,760);
-        font.draw(batch,"accelZ"+accelZ,10,740);*/
+        /*font.draw(batch,"roll:"+accelX,10,780);
+        font.draw(batch,"pitch:"+accelY,10,760);
+        //font.draw(batch,"rotation"+accelZ,10,740);*/
         batch.end();
 	}
 
@@ -215,7 +178,6 @@ public class Main extends Base {
 		camera.setToOrtho(false, sW, sH);
 		// camera.position.set(sW / 2, sH / 2, 0);
 	}
-	
 	public void setInputProcessor(){
 		Gdx.input.setInputProcessor(new InputProcessor() {
 
@@ -224,7 +186,8 @@ public class Main extends Base {
                 // TODO Auto-generated method stub
                 if (com.mygdx.purefaithstudio.Config.persistent) {
 					//partlay.setWind((240 - touch.x) * 0.2f);
-					partlay.setScale(0.6f);
+                    if(partlay!=null)
+					    partlay.setScale(0.6f);
 				}
                 return false;
             }
@@ -243,15 +206,14 @@ public class Main extends Base {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 // TODO Auto-generated method stub
-                touch.x = (int) (screenX * 480 / sW);
-                touch.y = (int) (screenY * 800 / sH);
-                touch.y = 800 - touch.y;
                 if (com.mygdx.purefaithstudio.Config.persistent) {
 					//partlay.setWind((240 - touch.x) * 0.2f);
-					if (ParticleLayer.LWcase == 6) {
-						partlay.setPos(touch.x, touch.y, 0);
-					}
-					partlay.setScale(1 / 0.6f);
+                    if(partlay!=null) {
+                       /* if (ParticleLayer.LWcase == 6) {
+                            partlay.setPos(touch.x, touch.y, 0);
+                        }*/
+                        partlay.setScale(1 / 0.6f);
+                    }
 				}
 				/*fire.setPos(touch.x, touch.y);
 				if (Config.moving) {
@@ -423,6 +385,13 @@ public class Main extends Base {
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/redcrack.png"));
                 texture[1]  = new Texture(Gdx.files.internal("data/redhulk.png"));
+                break;
+            case 16:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/drag1.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/drag2.png"));
                 break;
             default:
                 size=1;

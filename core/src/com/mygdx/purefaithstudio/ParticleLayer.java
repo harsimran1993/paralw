@@ -19,14 +19,11 @@ public class ParticleLayer {
 	public final String flame = "particle/enemage.party";
 	public final String blueflame = "particle/mage.party";
 	public final String blueflame2 = "particle/mage2.party";
-	//public final String smdesign = "particle/design4.party";
-	//public final String lgdesign = "particle/design5.party";
 	public final String chakra = "particle/chakra.party";
 	public final String sparks = "particle/sparks.party";
 	public final String sparks2 = "particle/sparks2.party";
 	public final String frag = "particle/frag.party";
 	public final String snow = "particle/snow.party";
-    public final String leaf = "particle/leaf.party";
 	public AssetManager assetm;
 	Array<PooledEffect> effects;
 	ParticleEffect pe;
@@ -211,6 +208,9 @@ public class ParticleLayer {
                 break;
 
             case 15:
+                break;
+
+            case 16:
                 break;
 			
 		default:

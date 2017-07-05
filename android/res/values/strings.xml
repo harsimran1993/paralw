@@ -31,6 +31,7 @@
         <item>parallax-Hulk-Buster</item>
         <item>parallax-Earth Screen Crack</item>
         <item>parallax-RED HULK</item>
+        <item>parallax-Dragons</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -49,6 +50,7 @@
         <item>13</item>
         <item>14</item>
         <item>15</item>
+        <item>16</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
@@ -68,6 +70,7 @@
     <string name="setbckColor">Set Color</string>
     <string name="earn">Earn Points</string>
     <string name="WallPoints">WP:</string>
+    <string name="SeekCat">Accelerometer</string>
 
     <string-array name="image_ids">
         <item>@drawable/image1</item>
@@ -86,6 +89,7 @@
         <item>@drawable/image14</item>
         <item>@drawable/image15</item>
         <item>@drawable/image16</item>
+        <item>@drawable/image17</item>
     </string-array>
     <string-array name="image_names">
         <item>Blue Excorcist</item>
@@ -104,5 +108,6 @@
         <item>parallax-Hulk-Buster</item>
         <item>parallax-Screen Crack 2</item>
         <item>parallax-RED HULK</item>
+        <item>parallax-Dragons</item>
     </string-array>
 </resources>

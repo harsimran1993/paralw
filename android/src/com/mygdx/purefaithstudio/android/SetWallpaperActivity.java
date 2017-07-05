@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +32,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mygdx.purefaithstudio.Config;
 
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     //google
 	private RewardedVideoAd mAd;
     private InterstitialAd mInterstitialAd;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    //private FirebaseAnalytics mFirebaseAnalytics;
     //me
     private boolean promoDone=false;
     private Context context;
@@ -62,7 +59,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wallpaper_main);
-        MobileAds.initialize(this, "ca-app-pub-5437679392990541~1941696510");
         context = getApplicationContext();
 		colorp = (ColorPicker) findViewById(R.id.colorPicker);
 		r =  (TextView) findViewById(R.id.red);
@@ -84,8 +80,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		b.setText("B:" + Color.blue(color));
         /*editor.putInt("points",300);
         editor.commit();*/
-		Config.points = prefs.getInt("points", 0);
-		wp.setText("" + Config.points);
+		Config.points = prefs.getInt("points", 0);		wp.setText("" + Config.points);
 
         //colorPicker Collapse
         colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
@@ -154,11 +149,11 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         });
 
         //analytics
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        /*mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
         params.putString("Activity", "launcher");
         params.putString("WP", ""+Config.points);
-        mFirebaseAnalytics.logEvent("share_image", params);
+        mFirebaseAnalytics.logEvent("share_image", params);*/
 
     }
 
@@ -190,14 +185,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         }
-
-        // [START wallpaper]
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, ""+Config.listTest);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Wallpaper_Selected");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        // [END image_view_event]
 	}
 
 	public void colorBackPick(View view) {
