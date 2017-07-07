@@ -1,6 +1,7 @@
 package com.mygdx.purefaithstudio.android;
 
 import android.app.WallpaperManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,15 +9,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +27,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -37,11 +41,11 @@ import com.mygdx.purefaithstudio.Config;
 import java.util.ArrayList;
 
 public class SetWallpaperActivity extends AppCompatActivity implements RewardedVideoAdListener{
-    //google
+    //google ads
 	private RewardedVideoAd mAd;
     private InterstitialAd mInterstitialAd;
+    //analytics
     //private FirebaseAnalytics mFirebaseAnalytics;
-    //me
     private boolean promoDone=false;
     private Context context;
     private ColorPicker colorp;
@@ -61,15 +65,15 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		setContentView(R.layout.wallpaper_main);
         context = getApplicationContext();
 		colorp = (ColorPicker) findViewById(R.id.colorPicker);
-		r =  (TextView) findViewById(R.id.red);
+		/*r =  (TextView) findViewById(R.id.red);
 		g =  (TextView) findViewById(R.id.green);
-		b =  (TextView) findViewById(R.id.blue);
+		b =  (TextView) findViewById(R.id.blue);*/
 		wp = (TextView) findViewById(R.id.pointText);
         loadingVid = (TextView) findViewById(R.id.Loading);
         earn = (Button) findViewById(R.id.earnbtn);
 		prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 		editor = prefs.edit();
-		// center text
+		/*// center text
 		r.setGravity(Gravity.CENTER);
 		g.setGravity(Gravity.CENTER);
 		b.setGravity(Gravity.CENTER);
@@ -77,7 +81,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		color = colorp.getColor();
 		r.setText("R:" + Color.red(color));
 		g.setText("G:" + Color.green(color));
-		b.setText("B:" + Color.blue(color));
+		b.setText("B:" + Color.blue(color));*/
         /*editor.putInt("points",300);
         editor.commit();*/
 		Config.points = prefs.getInt("points", 0);		wp.setText("" + Config.points);
@@ -106,7 +110,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position * 10 < (Config.points + 40)){
+                if(position * 10 < (Config.points + Config.fps)){
                     Config.listTest = ""+position;
                     editor.putString("listTest",""+position);
                     editor.commit();
@@ -125,6 +129,19 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
                     }
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SetWallpaperActivity.this);
+                    builder.setTitle("Insufficient Points!!");
+                    builder.setMessage("You have "+Config.points+" points, You need "+(position*10 - (Config.points+Config.fps -10))+" points.\n\n" +
+                            "You can get more points using earn button above.");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
                 }
             }
         });
@@ -149,11 +166,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         });
 
         //analytics
-        /*mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle params = new Bundle();
-        params.putString("Activity", "launcher");
-        params.putString("WP", ""+Config.points);
-        mFirebaseAnalytics.logEvent("share_image", params);*/
+        /*mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);*/
 
     }
 
@@ -189,10 +202,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	public void colorBackPick(View view) {
 		color = colorp.getColor();
-		Log.e("harsim", "" + color);
-		r.setText("R:" + Color.red(color));
-		g.setText("G:" + Color.green(color));
-		b.setText("B:" + Color.blue(color));
+		//Log.e("harsim", "" + color);
 		Config.backColor[0] = Color.red(color);
 		Config.backColor[1] = Color.green(color);
 		Config.backColor[2] = Color.blue(color);
@@ -227,7 +237,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                     public void onClick(DialogInterface dialog, int which) {
                         String m_Text = input.getText().toString();
                         if (m_Text.equals(Config.promo)) {
-                            editor.putInt("points", 80);
+                            editor.putInt("points", 60);
                             editor.putBoolean("promo",true);
                             editor.commit();
                             wp.setText("" + prefs.getInt("points", 0));
@@ -258,6 +268,34 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             }
 			return true;
 		}
+
+        if (id == R.id.Rateus) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Review Us!!");
+            builder.setMessage("Please give us a review.\nIt helps support Development.");
+            builder.setPositiveButton("Later", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.setNeutralButton("Sure", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    Uri uri = Uri.parse("market://details?id=com.mygdx.purefaithstudio.android");
+                    Intent openPlayStore = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(openPlayStore);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(SetWallpaperActivity.this, " unable to find market app",   Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            builder.show();
+            return true;
+        }
 		return super.onOptionsItemSelected(item);
 
 	}
@@ -319,7 +357,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 	private ArrayList<ImageItem> getData(){
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
         TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
-        TypedArray names = getResources().obtainTypedArray(R.array.image_names);
+        TypedArray names = getResources().obtainTypedArray(R.array.settings_listTestEntries);
         for (int i = 0; i < imgs.length(); i++) {
             imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i)));
         }

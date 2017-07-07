@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="Settings">
 	<PreferenceCategory android:key="settings_general" android:title="@string/settings_generalTitle">
 		<CheckBoxPreference android:key="checkBoxTest"
 							android:title="@string/settings_checkBoxTestTitle"
@@ -17,11 +18,12 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:key="Accelerometer" android:title="@string/SeekCat">
+    <PreferenceCategory android:key="Accelerometer Settings" android:title="@string/SeekCat">
 
         <com.mygdx.purefaithstudio.android.SeekBarPreference
             android:key="Sensitivity"
             android:title="Sensitivity"
+			android:summary="Adjusts the parallax sensitivity"
             android:defaultValue="32"/>
 
     </PreferenceCategory>

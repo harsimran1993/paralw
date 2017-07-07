@@ -5,9 +5,17 @@
 
     <item
         android:id="@+id/Promocode"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="promo"
         android:icon="@drawable/promo"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/Rateus"
+        android:orderInCategory="2"
+        android:title="Review"
+        android:icon="@drawable/rate"
+        app:showAsAction="ifRoom"/>
+
 
 </menu>

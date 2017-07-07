@@ -24,7 +24,7 @@ public class Main extends Base {
 	private ParticleLayer partlay;
 	private FrameBuffer fbo;
 	private TextureRegion fbr;
-    private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f;
+    private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f,dipMul=0.0f;
     private float accelY=0,lastAccelY=0;
     //private float accelZ=0,lastAccelZ=0;
     private int size=0;
@@ -44,6 +44,7 @@ public class Main extends Base {
         resetCamera(480,800);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
+        batch.enableBlending();
        if(!parallax) {
            setInputProcessor();
        }
@@ -136,7 +137,8 @@ public class Main extends Base {
         if(texture !=null) {
             for (int i = size - 1; i > 0; i--) {
                 if (texture[i] != null) {
-                    batch.draw(texture[i], -60 -(15 * i) + (accelX * i * Config.Sensitivity), -70 -(22*i)+ (accelY * i * Config.Sensitivity), 600+(30*i), 900+(44*i));
+                    dipMul = i*Config.Sensitivity;
+                    batch.draw(texture[i], -(7 * dipMul) + (accelX * dipMul), -(7 * dipMul)+ (accelY * dipMul), 480+(14*dipMul), 800+(14*dipMul));
                 }
             }
         }
@@ -144,7 +146,7 @@ public class Main extends Base {
         if(size>0 && texture[0] != null) {
 
             if(parallax) {
-                batch.draw(texture[0], -60, -70, 600, 900);
+                batch.draw(texture[0], 0, 0, 480, 800);
             }
             else {
                 batch.draw(texture[0], -20+accelX * 2, 0, 520, 800);
@@ -273,13 +275,13 @@ public class Main extends Base {
             texture = null;
         }
         switch(Integer.parseInt(Config.listTest)){
-            case 0:
+            case 8:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
                 texture[0] = new Texture(Gdx.files.internal("data/blue2.jpg"));
                 break;
-            case 1:
+            case 9:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
@@ -321,7 +323,7 @@ public class Main extends Base {
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/inori35.png"));
 			    break;
-            case 8:
+            case 0:
                 size=3;
                 parallax = true;
                 texture = new Texture[size];
@@ -329,7 +331,7 @@ public class Main extends Base {
                 texture[1] = new Texture(Gdx.files.internal("data/butter1.png"));
                 texture[2]  = new Texture(Gdx.files.internal("data/rocks.jpg"));
                 break;
-            case 9:
+            case 1:
                 size=4;
                 parallax = true;
                 texture = new Texture[size];
@@ -392,6 +394,15 @@ public class Main extends Base {
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/drag1.png"));
                 texture[1]  = new Texture(Gdx.files.internal("data/drag2.png"));
+                break;
+            case 17:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/naruto0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/naruto1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/naruto2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/naruto3.png"));
                 break;
             default:
                 size=1;

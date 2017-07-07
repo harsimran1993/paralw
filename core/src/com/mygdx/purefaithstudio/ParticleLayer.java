@@ -57,7 +57,7 @@ public class ParticleLayer {
 		effects.clear();
 		switch (LWcase) {
 
-            case 0:
+            case 8:
                 pep.atlasFile = "particle/pack.atlas";
                 assetm.load(blueflame, ParticleEffect.class, pep);
                 assetm.finishLoading();
@@ -81,7 +81,7 @@ public class ParticleLayer {
                 effects.add(pooleff);
                 break;
 
-            case 1:
+            case 9:
                 pep.atlasFile = "particle/pack.atlas";
                 assetm.load(flame, ParticleEffect.class, pep);
                 assetm.load(sparks, ParticleEffect.class, pep);
@@ -186,10 +186,10 @@ public class ParticleLayer {
                 effects.add(pooleff);
                 break;
 
-            case 8:
+            case 0:
                 break;
 
-            case 9:
+            case 1:
                 break;
 
             case 10:
@@ -211,6 +211,9 @@ public class ParticleLayer {
                 break;
 
             case 16:
+                break;
+
+            case 17:
                 break;
 			
 		default:

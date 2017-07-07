@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.mygdx.purefaithstudio.Config;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -133,9 +135,19 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
         }
         else if (preference == listTest) {
             points = Integer.parseInt(newValue.toString()) * 10;
-            if( points >= (Config.points + 40)){
-                Toast.makeText(this,"You need "+(points - (Config.points + 30))+" more points for this effect",Toast.LENGTH_SHORT).show();
-                points=0;
+            if( points >= (Config.points + Config.fps)){
+				AlertDialog.Builder builder = new AlertDialog.Builder(Preferences.this);
+				builder.setTitle("Insufficient Points!!");
+				builder.setMessage("You have "+Config.points+" points, You need "+(points - (Config.points + Config.fps - 10))+" points.\n\n" +
+						"You can get more points using earn button above.");
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int i) {
+						dialog.cancel();
+					}
+				});
+				builder.show();
+				points=0;
                 return false;
             }
             else {

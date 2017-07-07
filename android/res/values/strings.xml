@@ -15,23 +15,24 @@
     <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.</string>
 
     <string-array name="settings_listTestEntries">
-        <item>Blue Exorcist A</item>
-        <item>FairyTale Natsu</item>
+        <item>parallax-Butterly</item>
+        <item>parallax-Ironmen</item>
         <item>Blue Exorcist B</item>
         <item>Shakugan no Shana A</item>
         <item>Shakugan no Shana B</item>
         <item>Sword Art Online Kirito</item>
         <item>Yukata Anime Girl</item>
         <item>Guilty Crown Inori</item>
-        <item>parallax-Butterly</item>
-        <item>parallax-Ironmen</item>
+        <item>Blue Exorcist A</item>
+        <item>FairyTale Natsu</item>
         <item>parallax-Transformer</item>
-        <item>parallax-Hills Paper Cut-Out</item>
+        <item>parallax-Paper Cut-Out</item>
         <item>parallax-Screen Crack </item>
         <item>parallax-Hulk-Buster</item>
-        <item>parallax-Earth Screen Crack</item>
+        <item>parallax-Screen Crack 2</item>
         <item>parallax-RED HULK</item>
         <item>parallax-Dragons</item>
+        <item>parallax-Naruto</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -51,13 +52,33 @@
         <item>14</item>
         <item>15</item>
         <item>16</item>
+        <item>17</item>
+    </string-array>
+    <string-array name="image_ids">
+        <item>@drawable/image9</item>
+        <item>@drawable/image10</item>
+        <item>@drawable/image3</item>
+        <item>@drawable/image4</item>
+        <item>@drawable/image5</item>
+        <item>@drawable/image6</item>
+        <item>@drawable/image7</item>
+        <item>@drawable/image8</item>
+        <item>@drawable/image1</item>
+        <item>@drawable/image2</item>
+        <item>@drawable/image11</item>
+        <item>@drawable/image12</item>
+        <item>@drawable/image13</item>
+        <item>@drawable/image14</item>
+        <item>@drawable/image15</item>
+        <item>@drawable/image16</item>
+        <item>@drawable/image17</item>
+        <item>@drawable/image18</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
     <string name="settings_button_supportTitle">Need help?</string>
 
     <!-- SYSTEM -->
-
     <string name="settings_toast_unavailable">Google Play is unavailable</string>
     <string name="service_name">LWPTemplate</string>
     <string name="support_email">harsimran1994@gmail.com</string>
@@ -69,45 +90,7 @@
     <string name="setColor">Select Color Effect</string>
     <string name="setbckColor">Set Color</string>
     <string name="earn">Earn Points</string>
-    <string name="WallPoints">WP:</string>
+    <string name="WallPoints">Points:</string>
     <string name="SeekCat">Accelerometer</string>
 
-    <string-array name="image_ids">
-        <item>@drawable/image1</item>
-        <item>@drawable/image2</item>
-        <item>@drawable/image3</item>
-        <item>@drawable/image4</item>
-        <item>@drawable/image5</item>
-        <item>@drawable/image6</item>
-        <item>@drawable/image7</item>
-        <item>@drawable/image8</item>
-        <item>@drawable/image9</item>
-        <item>@drawable/image10</item>
-        <item>@drawable/image11</item>
-        <item>@drawable/image12</item>
-        <item>@drawable/image13</item>
-        <item>@drawable/image14</item>
-        <item>@drawable/image15</item>
-        <item>@drawable/image16</item>
-        <item>@drawable/image17</item>
-    </string-array>
-    <string-array name="image_names">
-        <item>Blue Excorcist</item>
-        <item>FairyTail-Natsu</item>
-        <item>Blue Excorcist 2</item>
-        <item>Shana</item>
-        <item>Shana 2</item>
-        <item>Sword Art Online</item>
-        <item>Yukata Snow</item>
-        <item>Guilty Crown</item>
-        <item>parallax-Butterly</item>
-        <item>parallax-Ironmen</item>
-        <item>parallax-Transformer</item>
-        <item>parallax-Paper Cut-Out</item>
-        <item>parallax-Screen Crack </item>
-        <item>parallax-Hulk-Buster</item>
-        <item>parallax-Screen Crack 2</item>
-        <item>parallax-RED HULK</item>
-        <item>parallax-Dragons</item>
-    </string-array>
 </resources>

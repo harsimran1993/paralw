@@ -45,7 +45,7 @@ public class GridViewImageAdapter extends ArrayAdapter {
         ImageItem item =(ImageItem) data.get(position);
         holder.imageTitle.setText(item.getTitle());
         holder.image.setImageResource(item.getImage());
-        if(position * 10 < (Config.points + 40)){
+        if(position * 10 < (Config.points + Config.fps)){
             holder.lock.setVisibility(View.GONE);
         }
         else{
