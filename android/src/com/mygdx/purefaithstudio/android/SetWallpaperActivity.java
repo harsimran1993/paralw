@@ -11,7 +11,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +48,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private Context context;
     private ColorPicker colorp;
     private TextView r, g, b,wp,loadingVid;
-    Button earn;
+    private Button earn;
+    private int requestCode = 1;
     private ImageButton colorCollapser;
     private LinearLayout colorBackLayout;
     private int color;
@@ -58,6 +57,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private SharedPreferences.Editor editor;
     private GridView gridView;
     private GridViewImageAdapter gridAdapter;
+    private String lastWallp="0";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +111,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position * 10 < (Config.points + Config.fps)){
+                    lastWallp = Config.listTest;
                     Config.listTest = ""+position;
                     editor.putString("listTest",""+position);
                     editor.commit();
@@ -119,12 +120,18 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                         if(Config.lockScreen)
                             intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
                         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
-                        startActivity(intent);
+                        startActivityForResult(intent,requestCode);
                     } catch (Exception e) {
-                        Log.e("harsim", "moved to chooser");
-                        Intent intent = new Intent();
-                        intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-                        startActivity(intent);
+                        try {
+                            Log.e("harsim", "moved to chooser");
+                            Intent intent = new Intent();
+                            Toast makeText = Toast.makeText(SetWallpaperActivity.this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
+                            intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
+                            startActivityForResult(intent, requestCode);
+                            makeText.show();
+                        } catch (Exception e2) {
+                            Toast.makeText(SetWallpaperActivity.this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
@@ -188,12 +195,19 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             if(Config.lockScreen)
 			    intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
 			intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
-			startActivity(intent);
-		} catch (Exception e) {
-			Log.e("harsim", "moved to chooser");
-			Intent intent = new Intent();
-			intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-			startActivity(intent);
+			startActivityForResult(intent,this.requestCode);
+		} catch (ActivityNotFoundException e) {
+            try {
+                Log.e("harsim", "moved to chooser");
+                Intent intent = new Intent();
+                Toast makeText = Toast.makeText(this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
+                intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
+                startActivityForResult(intent, this.requestCode);
+                makeText.show();
+            }
+            catch (ActivityNotFoundException e2){
+                Toast.makeText(this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
+            }
 		}
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
@@ -362,6 +376,24 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i)));
         }
         return imageItems;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == requestCode) {
+            Log.i("harsim","activityresult recieved");
+            // Make sure the request was successful
+            if (resultCode == RESULT_CANCELED) {
+                Log.i("harsim","cancel");
+                Config.listTest = lastWallp;
+                editor.putString("listTest",lastWallp);
+                editor.commit();
+            }
+            if(resultCode == RESULT_OK){
+                Log.i("harsim","Ok");
+            }
+        }
     }
 
 	/*private class ImageData{

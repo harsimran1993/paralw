@@ -107,7 +107,7 @@ public class ParticleLayer {
                 effects.add(pooleff);
                 break;
 
-            case 2:
+            case 10:
                 pep.atlasFile = "particle/pack.atlas";
                 assetm.load(blueflame2, ParticleEffect.class, pep);
                 assetm.finishLoading();
@@ -121,7 +121,7 @@ public class ParticleLayer {
                 effects.add(pooleff);
                 break;
 
-            case 3:
+            case 13:
                 pep.atlasFile = "particle/pack.atlas";
                 assetm.load(sparks2, ParticleEffect.class, pep);
                 assetm.finishLoading();
@@ -192,7 +192,7 @@ public class ParticleLayer {
             case 1:
                 break;
 
-            case 10:
+            case 2:
                 break;
 
             case 11:
@@ -201,7 +201,7 @@ public class ParticleLayer {
             case 12:
                 break;
 
-            case 13:
+            case 3:
                 break;
 
             case 14:

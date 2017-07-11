@@ -17,18 +17,18 @@
     <string-array name="settings_listTestEntries">
         <item>parallax-Butterly</item>
         <item>parallax-Ironmen</item>
-        <item>Blue Exorcist B</item>
-        <item>Shakugan no Shana A</item>
+        <item>parallax-Transformer</item>
+        <item>parallax-Hulk-Buster</item>
         <item>Shakugan no Shana B</item>
         <item>Sword Art Online Kirito</item>
         <item>Yukata Anime Girl</item>
         <item>Guilty Crown Inori</item>
         <item>Blue Exorcist A</item>
         <item>FairyTale Natsu</item>
-        <item>parallax-Transformer</item>
+        <item>Blue Exorcist B</item>
         <item>parallax-Paper Cut-Out</item>
         <item>parallax-Screen Crack </item>
-        <item>parallax-Hulk-Buster</item>
+        <item>Shakugan no Shana A</item>
         <item>parallax-Screen Crack 2</item>
         <item>parallax-RED HULK</item>
         <item>parallax-Dragons</item>
@@ -57,18 +57,18 @@
     <string-array name="image_ids">
         <item>@drawable/image9</item>
         <item>@drawable/image10</item>
-        <item>@drawable/image3</item>
-        <item>@drawable/image4</item>
+        <item>@drawable/image11</item>
+        <item>@drawable/image14</item>
         <item>@drawable/image5</item>
         <item>@drawable/image6</item>
         <item>@drawable/image7</item>
         <item>@drawable/image8</item>
         <item>@drawable/image1</item>
         <item>@drawable/image2</item>
-        <item>@drawable/image11</item>
+        <item>@drawable/image3</item>
         <item>@drawable/image12</item>
         <item>@drawable/image13</item>
-        <item>@drawable/image14</item>
+        <item>@drawable/image4</item>
         <item>@drawable/image15</item>
         <item>@drawable/image16</item>
         <item>@drawable/image17</item>

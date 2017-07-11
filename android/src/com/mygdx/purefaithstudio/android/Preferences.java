@@ -97,43 +97,26 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		if (preference == checkBoxTest) {
-			if(Config.points >= 25) {
+
+		if(preference == checkBoxTest) {
                 Config.persistent = (Boolean) newValue;
                 checkBoxTest.setChecked(Config.persistent);
                 Config.save();
-			}
-			else{
-				Toast.makeText(this,"insufficient points u need 25",Toast.LENGTH_SHORT).show();
-                return false;
-			}
 			return true;
 		}
-        else if (preference == moveBox) {
-            if(Config.points >= 10) {
+        if (preference == moveBox) {
                 Config.moving = (Boolean) newValue;
                 moveBox.setChecked(Config.moving);
                 Config.save();
-            }
-            else{
-                Toast.makeText(this,"insufficient points u need 10",Toast.LENGTH_SHORT).show();
-                return false;
-            }
             return true;
         }
-        else if (preference == setLock) {
-            if(Config.points >= 90) {
+        if (preference == setLock) {
                 Config.lockScreen = (Boolean) newValue;
                 setLock.setChecked(Config.lockScreen);
                 Config.save();
-            }
-            else{
-                Toast.makeText(this,"insufficient points u need 90",Toast.LENGTH_SHORT).show();
-                return false;
-            }
             return true;
         }
-        else if (preference == listTest) {
+        if (preference == listTest) {
             points = Integer.parseInt(newValue.toString()) * 10;
             if( points >= (Config.points + Config.fps)){
 				AlertDialog.Builder builder = new AlertDialog.Builder(Preferences.this);

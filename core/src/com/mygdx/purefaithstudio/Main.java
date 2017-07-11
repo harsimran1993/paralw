@@ -287,13 +287,13 @@ public class Main extends Base {
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/natsu.jpg"));
                 break;
-            case 2:
+            case 10:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/blue3.png"));
                 break;
-            case 3:
+            case 13:
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
@@ -340,7 +340,7 @@ public class Main extends Base {
                 texture[2] = new Texture(Gdx.files.internal("data/ironbase.png"));
                 texture[3]  = new Texture(Gdx.files.internal("data/city.jpg"));
                 break;
-            case 10:
+            case 2:
                 size=3;
                 parallax = true;
                 texture = new Texture[size];
@@ -365,7 +365,7 @@ public class Main extends Base {
                 texture[0]  = new Texture(Gdx.files.internal("data/chip.png"));
                 texture[1] = new Texture(Gdx.files.internal("data/chip1.png"));
                 break;
-            case 13:
+            case 3:
                 size=4;
                 parallax = true;
                 texture = new Texture[size];

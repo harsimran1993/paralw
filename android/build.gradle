@@ -21,8 +21,8 @@ android {
         applicationId "com.mygdx.purefaithstudio.android"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 7
-        versionName "1.5.2"
+        versionCode 8
+        versionName "1.5.3"
     }
     buildTypes {
         release {
@@ -132,7 +132,5 @@ idea {
 }
 dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile ('com.google.android.gms:play-services-ads:11.0.2') {
-        exclude group: 'com.google.firebase', module: 'firebase-common'
-    }
+    compile 'com.google.android.gms:play-services-ads:11.0.2'
 }
