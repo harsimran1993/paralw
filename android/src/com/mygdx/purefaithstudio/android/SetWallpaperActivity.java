@@ -431,6 +431,16 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         //emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
+
+    public void fb(){
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/" + "purefaithstudio"));
+            startActivity(intent);
+        } catch (Exception e) {
+            Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + "purefaithstudio"));
+            startActivity(intent);
+        }
+    }
 	/*private class ImageData{
         public String imageURL,imageName;
         public ImageData(String imageURL,String imageName){

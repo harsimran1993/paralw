@@ -185,48 +185,8 @@ public class ParticleLayer {
                 pooleff.scaleEffect(2.2f);
                 effects.add(pooleff);
                 break;
-
-            case 0:
-                break;
-
-            case 1:
-                break;
-
-            case 2:
-                break;
-
-            case 11:
-                break;
-
-            case 12:
-                break;
-
-            case 3:
-                break;
-
-            case 14:
-                break;
-
-            case 15:
-                break;
-
-            case 16:
-                break;
-
-            case 17:
-                break;
 			
 		default:
-            pep.atlasFile = "particle/pack.atlas";
-            assetm.load(sparks2, ParticleEffect.class, pep);
-            assetm.finishLoading();
-            PePool = new ParticleEffectPool[1];
-            pe = assetm.get(sparks2, ParticleEffect.class);
-            PePool[0] = new ParticleEffectPool(pe, 1, 5);
-            pooleff = PePool[0].obtain();
-            pooleff.setPosition(240, 0);
-            pooleff.scaleEffect(1.5f);
-            effects.add(pooleff);
             break;
 		}
 		if(pooleff !=null)

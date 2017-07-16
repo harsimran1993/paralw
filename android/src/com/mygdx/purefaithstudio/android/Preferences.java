@@ -114,6 +114,8 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 Config.lockScreen = (Boolean) newValue;
                 setLock.setChecked(Config.lockScreen);
                 Config.save();
+			if(Config.lockScreen)
+				Toast.makeText(this,"click on set-wallaper again for it to take effect!!",Toast.LENGTH_SHORT).show();
             return true;
         }
         if (preference == listTest) {

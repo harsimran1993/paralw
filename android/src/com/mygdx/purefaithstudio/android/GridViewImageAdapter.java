@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class GridViewImageAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
-    private ArrayList data = new ArrayList();
+    private ArrayList<ImageItem> data = new ArrayList();
 
-    public GridViewImageAdapter(Context context, int layoutResourceId, ArrayList data) {
+    public GridViewImageAdapter(Context context, int layoutResourceId, ArrayList<ImageItem> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -42,7 +42,7 @@ public class GridViewImageAdapter extends ArrayAdapter {
             holder = (ViewHolder) row.getTag();
         }
 
-        ImageItem item =(ImageItem) data.get(position);
+        ImageItem item =data.get(position);
         holder.imageTitle.setText(item.getTitle());
         holder.image.setImageResource(item.getImage());
         if(position * 10 < (Config.points + Config.fps)){

@@ -33,6 +33,8 @@
         <item>parallax-RED HULK</item>
         <item>parallax-Dragons</item>
         <item>parallax-Naruto</item>
+        <item>parallax-Rain</item>
+        <item>parallax-nature</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -53,6 +55,8 @@
         <item>15</item>
         <item>16</item>
         <item>17</item>
+        <item>18</item>
+        <item>19</item>
     </string-array>
     <string-array name="image_ids">
         <item>@drawable/image9</item>
@@ -73,6 +77,8 @@
         <item>@drawable/image16</item>
         <item>@drawable/image17</item>
         <item>@drawable/image18</item>
+        <item>@drawable/image19</item>
+        <item>@drawable/image20</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>

@@ -100,6 +100,8 @@ public class Main extends Base {
 		    partlay.update(delta);
         //accelerometer
 		accelX = Gdx.input.getAccelerometerX();
+        if(accelX > 7) accelX = 7;
+        if(accelX < -7) accelX = -7;
         accelX = accelX * fact+ lastAccelX * (1-fact);
 	    accelY = Gdx.input.getAccelerometerY() -4.5f;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
@@ -349,14 +351,15 @@ public class Main extends Base {
                 texture[2]  = new Texture(Gdx.files.internal("data/ironhideback.jpg"));
                 break;
             case 11:
-                size=4;
+                size=5;
                 parallax = true;
                 texture = new Texture[size];
-                texture[0] = new Texture(Gdx.files.internal("data/cutout0.png"));
-                texture[1] = new Texture(Gdx.files.internal("data/cutout1.png"));
+                texture[0]=null;
+                texture[1] = new Texture(Gdx.files.internal("data/cutout0.png"));
+                texture[2] = new Texture(Gdx.files.internal("data/cutout1.png"));
                 //texture[2]  = new Texture(Gdx.files.internal("data/cutout2.png"));
-                texture[2] = new Texture(Gdx.files.internal("data/cutout3.png"));
-                texture[3] = new Texture(Gdx.files.internal("data/cutout4.png"));
+                texture[3] = new Texture(Gdx.files.internal("data/cutout3.png"));
+                texture[4] = new Texture(Gdx.files.internal("data/cutout4.png"));
                 break;
             case 12:
                 size=2;
@@ -403,6 +406,23 @@ public class Main extends Base {
                 texture[1]  = new Texture(Gdx.files.internal("data/naruto1.png"));
                 texture[2]  = new Texture(Gdx.files.internal("data/naruto2.png"));
                 texture[3]  = new Texture(Gdx.files.internal("data/naruto3.png"));
+                break;
+            case 18:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/rain0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/rain1.png"));
+                break;
+            case 19:
+                size=5;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]=null;
+                texture[1]  = new Texture(Gdx.files.internal("data/flow0.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/flow1.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/flow2.png"));
+                texture[4]  = new Texture(Gdx.files.internal("data/flow3.jpg"));
                 break;
             default:
                 size=1;
