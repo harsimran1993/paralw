@@ -1,21 +1,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mygdx.purefaithstudio.android.SetWallpaperActivity" >
+    tools:context="com.mygdx.purefaithstudio.android.SetWallpaperActivity">
 
     <item
         android:id="@+id/Promocode"
         android:orderInCategory="1"
         android:title="promo"
         android:icon="@drawable/promo"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always|withText" />
 
     <item
         android:id="@+id/Rateus"
         android:orderInCategory="2"
         android:title="Review"
         android:icon="@drawable/rate"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always|withText"/>
 
+    <item
+        android:id="@+id/Share"
+        android:orderInCategory="3"
+        android:title="Share"
+        app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/Contactus"
+        android:orderInCategory="4"
+        android:title="Contact-us"/>
+
+    <item
+        android:id="@+id/Help"
+        android:orderInCategory="5"
+        android:title="Help"/>
 
 </menu>

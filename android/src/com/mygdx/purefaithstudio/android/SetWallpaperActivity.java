@@ -310,6 +310,16 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             builder.show();
             return true;
         }
+
+        if (id == R.id.Share) {
+            shareTextUrl();
+        }
+        if(id == R.id.Contactus){
+            contactUs();
+        }
+        if(id == R.id.Help){
+
+        }
 		return super.onOptionsItemSelected(item);
 
 	}
@@ -395,7 +405,32 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             }
         }
     }
+    private void shareTextUrl() {
+        try {
+            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            share.setType("text/plain");
 
+            // Add data to the intent, the receiving app will decide
+            // what to do with it.
+            share.putExtra(Intent.EXTRA_SUBJECT, "Live Wallpaper - 3D parallax backgrounds hd");
+            String sAux = "\nLet me recommend you this application\n\n";
+            sAux = sAux + "https://play.google.com/store/apps/details?id=com.mygdx.purefaithstudio.android";
+            share.putExtra(Intent.EXTRA_TEXT, sAux);
+
+            startActivity(Intent.createChooser(share, "Share link!"));
+        }
+        catch (Exception e){
+            //e.printStackTrace();
+        }
+    }
+
+    public void contactUs(){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","harsimran1994@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bug Report");
+        //emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
 	/*private class ImageData{
         public String imageURL,imageName;
         public ImageData(String imageURL,String imageName){
