@@ -95,19 +95,34 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		Toast.makeText(this, R.string.settings_toast_unavailable, Toast.LENGTH_SHORT).show();
 	}
 
-	@Override
+    @Override
+    public void onBackPressed() {
+        if(mInterstitialAd.isLoaded())
+            mInterstitialAd.show();
+        super.onBackPressed();
+    }
+
+    @Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 
 		if(preference == checkBoxTest) {
                 Config.persistent = (Boolean) newValue;
                 checkBoxTest.setChecked(Config.persistent);
                 Config.save();
+           /* if(mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else if(!mInterstitialAd.isLoading())
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
 			return true;
 		}
         if (preference == moveBox) {
                 Config.moving = (Boolean) newValue;
                 moveBox.setChecked(Config.moving);
                 Config.save();
+           /* if(mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else if(!mInterstitialAd.isLoading())
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
             return true;
         }
         if (preference == setLock) {
@@ -116,6 +131,10 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 Config.save();
 			if(Config.lockScreen)
 				Toast.makeText(this,"click on set-wallaper again for it to take effect!!",Toast.LENGTH_SHORT).show();
+           /* if(mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else if(!mInterstitialAd.isLoading())
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
             return true;
         }
         if (preference == listTest) {
@@ -141,7 +160,10 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 listTest.setSummary(listTest.getEntry());
                 Config.save();
             }
-            mInterstitialAd.show();
+            if(mInterstitialAd.isLoaded())
+                mInterstitialAd.show();
+            else if(!mInterstitialAd.isLoading())
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
 			return true;
 		}
 		return false;

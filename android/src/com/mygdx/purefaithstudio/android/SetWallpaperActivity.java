@@ -124,10 +124,10 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                     } catch (Exception e) {
                         try {
                             Log.e("harsim", "moved to chooser");
-                            Intent intent = new Intent();
+                            Intent intent2 = new Intent();
                             Toast makeText = Toast.makeText(SetWallpaperActivity.this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
-                            intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-                            startActivityForResult(intent, requestCode);
+                            intent2.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
+                            startActivityForResult(intent2, requestCode);
                             makeText.show();
                         } catch (Exception e2) {
                             Toast.makeText(SetWallpaperActivity.this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
@@ -181,7 +181,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 	protected void onResume() {
 		super.onResume();
 		wp.setText("" + prefs.getInt("points", 0));
-		Log.e("harsim", "" + prefs.getInt("points", 0));
+		//Log.i("harsim", "" + prefs.getInt("points", 0));
 	}
 
     @Override
@@ -212,15 +212,20 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         }
+        else if(!mInterstitialAd.isLoading()){
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
+        }
 	}
 
 	public void colorBackPick(View view) {
 		color = colorp.getColor();
-		//Log.e("harsim", "" + color);
+		//Log.i("harsim", "" + color);
 		Config.backColor[0] = Color.red(color);
 		Config.backColor[1] = Color.green(color);
 		Config.backColor[2] = Color.blue(color);
         Config.backColorchange = true;
+        colorCollapser.setBackgroundResource(R.drawable.plus);
+        colorBackLayout.setVisibility(View.GONE);
 		//Config.saveColor();
 	}
 
@@ -317,9 +322,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         if(id == R.id.Contactus){
             contactUs();
         }
-        if(id == R.id.Help){
+        /*if(id == R.id.Help){
 
-        }
+        }*/
 		return super.onOptionsItemSelected(item);
 
 	}
@@ -361,10 +366,16 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	@Override
 	public void onRewarded(RewardItem reward) {
-		Config.points += reward.getAmount();
-		editor.putInt("points", Config.points);
-		editor.commit();
-		//wp.setText(""+Config.points);
+        try {
+            Config.points += reward.getAmount();
+            editor.putInt("points", Config.points);
+            editor.commit();
+            //wp.setText(""+Config.points);
+            gridAdapter.notifyDataSetInvalidated();
+        }
+        catch(Exception e){
+
+        }
 	}
 
 	@Override
@@ -427,8 +438,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     public void contactUs(){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto","harsimran1994@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bug Report");
-        //emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject here ex:- bug report");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "enter your message for us here");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 

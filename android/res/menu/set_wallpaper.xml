@@ -28,9 +28,9 @@
         android:orderInCategory="4"
         android:title="Contact-us"/>
 
-    <item
+    <!--item
         android:id="@+id/Help"
         android:orderInCategory="5"
-        android:title="Help"/>
+        android:title="Help"/-->
 
 </menu>

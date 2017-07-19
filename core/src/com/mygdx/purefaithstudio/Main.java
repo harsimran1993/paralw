@@ -15,11 +15,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Main extends Base {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
+    private Vector2 touch;
 	private Texture texture[];
 	private ParticleLayer partlay;
 	private FrameBuffer fbo;
@@ -210,6 +212,12 @@ public class Main extends Base {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 // TODO Auto-generated method stub
+
+                touch = new Vector2();
+                touch.x = (int) (screenX * 480 / Gdx.graphics.getWidth());
+                touch.y = (int) (screenY * 800 / Gdx.graphics.getHeight());
+                touch.y = 800 - touch.y;
+                System.out.println(touch.x+":"+touch.y);
                 if (com.mygdx.purefaithstudio.Config.persistent) {
 					//partlay.setWind((240 - touch.x) * 0.2f);
                     if(partlay!=null) {
@@ -399,13 +407,12 @@ public class Main extends Base {
                 texture[1]  = new Texture(Gdx.files.internal("data/drag2.png"));
                 break;
             case 17:
-                size=4;
+                size=3;
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/naruto0.png"));
                 texture[1]  = new Texture(Gdx.files.internal("data/naruto1.png"));
-                texture[2]  = new Texture(Gdx.files.internal("data/naruto2.png"));
-                texture[3]  = new Texture(Gdx.files.internal("data/naruto3.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/naruto4.jpg"));
                 break;
             case 18:
                 size=2;

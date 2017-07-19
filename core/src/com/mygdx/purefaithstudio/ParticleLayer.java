@@ -19,7 +19,7 @@ public class ParticleLayer {
 	public final String flame = "particle/enemage.party";
 	public final String blueflame = "particle/mage.party";
 	public final String blueflame2 = "particle/mage2.party";
-	public final String chakra = "particle/chakra.party";
+	public final String chakra = "particle/design4.party";
 	public final String sparks = "particle/sparks.party";
 	public final String sparks2 = "particle/sparks2.party";
 	public final String frag = "particle/frag.party";
@@ -183,6 +183,19 @@ public class ParticleLayer {
                 pooleff = PePool[0].obtain();
                 pooleff.setPosition(240, 800);
                 pooleff.scaleEffect(2.2f);
+                effects.add(pooleff);
+                break;
+
+            case 17:
+                pep.atlasFile = "particle/pack.atlas";
+                assetm.load(chakra, ParticleEffect.class, pep);
+                assetm.finishLoading();
+                PePool = new ParticleEffectPool[1];
+                pe = assetm.get(chakra, ParticleEffect.class);
+                PePool[0] = new ParticleEffectPool(pe, 1, 5);
+                pooleff = PePool[0].obtain();
+                pooleff.setPosition(187, 331);
+                pooleff.scaleEffect(0.3f);
                 effects.add(pooleff);
                 break;
 			
