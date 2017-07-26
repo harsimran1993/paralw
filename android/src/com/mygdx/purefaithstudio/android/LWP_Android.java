@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.AndroidLiveWallpaperService;
 import com.badlogic.gdx.backends.android.AndroidWallpaperListener;
+import com.mygdx.purefaithstudio.Config;
 
 public class LWP_Android extends AndroidLiveWallpaperService {
 	public static float pixelOffset = 0;
@@ -15,8 +16,14 @@ public class LWP_Android extends AndroidLiveWallpaperService {
 		final AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useCompass = false;
 		config.useWakelock = false;
-		config.useGyroscope = false;
-		config.useAccelerometer = true;
+		if(Config.useGyro) {
+			config.useGyroscope = true;
+			config.useAccelerometer = false;
+		}
+		else{
+			config.useGyroscope = false;
+			config.useAccelerometer=true;
+		}
 		config.getTouchEventsForLiveWallpaper = false;
 		config.disableAudio = true;
 

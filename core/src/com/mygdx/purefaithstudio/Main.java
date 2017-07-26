@@ -2,9 +2,9 @@ package com.mygdx.purefaithstudio;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 public class Main extends Base {
 	private OrthographicCamera camera;
@@ -26,11 +25,12 @@ public class Main extends Base {
 	private ParticleLayer partlay;
 	private FrameBuffer fbo;
 	private TextureRegion fbr;
-    private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f,dipMul=0.0f;
+    private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f;
     private float accelY=0,lastAccelY=0;
     //private float accelZ=0,lastAccelZ=0;
+    private float dipMul=0.0f,touchcount=0,moveX,moveY;
     private int size=0;
-    private boolean parallax = false;
+    private boolean parallax = false,gyroscope=false;
     private BitmapFont font;
 
 	public Main(Game game, com.mygdx.purefaithstudio.Resolver resolver) {
@@ -47,6 +47,7 @@ public class Main extends Base {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
         batch.enableBlending();
+        gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
        if(!parallax) {
            setInputProcessor();
        }
@@ -101,25 +102,35 @@ public class Main extends Base {
         if(partlay!=null)
 		    partlay.update(delta);
         //accelerometer
-		accelX = Gdx.input.getAccelerometerX();
+        if(gyroscope)
+            accelX+=Gdx.input.getGyroscopeY() * 0.75f;//roll
+        else
+		    accelX = Gdx.input.getAccelerometerX();
         if(accelX > 7) accelX = 7;
         if(accelX < -7) accelX = -7;
         accelX = accelX * fact+ lastAccelX * (1-fact);
-	    accelY = Gdx.input.getAccelerometerY() -4.5f;
+
+        if(gyroscope)
+            accelY+=Gdx.input.getGyroscopeX() *0.75f;//pitch
+        else
+	        accelY = Gdx.input.getAccelerometerY() -4.5f;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
-	   /* accelZ = Gdx.input.getAccelerometerZ() ;
+	    /*accelZ = Gdx.input.getAccelerometerZ() ;
         accelZ = accelZ * fact+ lastAccelZ * (1-fact);*/
+
 		draw(delta); // Main draw part
 
         if (Math.abs(accelX - lastAccelX) > thresh) {
-            lastAccelX = accelX;
+                lastAccelX = accelX;
         }
         if (Math.abs(accelY - lastAccelY) > thresh) {
-            lastAccelY = accelY;
+                lastAccelY = accelY;
         }
-       /* if (Math.abs(accelZ - lastAccelZ) > thresh) {
-            lastAccelZ = accelZ;
+
+        /*if (Math.abs(accelZ - lastAccelZ) > thresh) {
+        lastAccelZ = accelZ;
         }*/
+
         if (isAndroid)
 		limitFPS();
 
@@ -142,7 +153,13 @@ public class Main extends Base {
             for (int i = size - 1; i > 0; i--) {
                 if (texture[i] != null) {
                     dipMul = i*Config.Sensitivity;
-                    batch.draw(texture[i], -(7 * dipMul) + (accelX * dipMul), -(7 * dipMul)+ (accelY * dipMul), 480+(14*dipMul), 800+(14*dipMul));
+                    moveX = accelX * dipMul;
+                    moveY = accelY * dipMul;
+                    if (moveX > 7 * dipMul) moveX = 7 * dipMul;
+                    if (moveX < -(7 * dipMul)) moveX = -7 * dipMul;
+                    if (moveY > 7 * dipMul) moveY = 7 * dipMul;
+                    if (moveY < -(7 * dipMul)) moveY = -7 * dipMul;
+                    batch.draw(texture[i], -(7 * dipMul) + moveX, -(7 * dipMul)+ moveY, 480+(14*dipMul), 800+(14*dipMul));
                 }
             }
         }
@@ -153,7 +170,7 @@ public class Main extends Base {
                 batch.draw(texture[0], 0, 0, 480, 800);
             }
             else {
-                batch.draw(texture[0], -20+accelX * 2, 0, 520, 800);
+                batch.draw(texture[0], -20+ accelX * 2, 0, 520, 800);
             }
         }
 
@@ -174,9 +191,9 @@ public class Main extends Base {
             batch.draw(fbr, 0, 0, 480, 800);
         }
         //onscreen acclero debug
-        /*font.draw(batch,"roll:"+accelX,10,780);
-        font.draw(batch,"pitch:"+accelY,10,760);
-        //font.draw(batch,"rotation"+accelZ,10,740);*/
+       /*font.draw(batch,"roll:"+accelX,10,780);
+        font.draw(batch,"pitch:"+accelY,10,760);*/
+       /* font.draw(batch,"rotation"+accelZ,10,740);*/
         batch.end();
 	}
 
@@ -190,6 +207,7 @@ public class Main extends Base {
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
                 // TODO Auto-generated method stub
+                touchcount--;
                 if (com.mygdx.purefaithstudio.Config.persistent) {
 					//partlay.setWind((240 - touch.x) * 0.2f);
                     if(partlay!=null)
@@ -213,11 +231,19 @@ public class Main extends Base {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 // TODO Auto-generated method stub
 
-                touch = new Vector2();
-                touch.x = (int) (screenX * 480 / Gdx.graphics.getWidth());
-                touch.y = (int) (screenY * 800 / Gdx.graphics.getHeight());
-                touch.y = 800 - touch.y;
-                System.out.println(touch.x+":"+touch.y);
+                touchcount++;
+                if(touchcount>1 && gyroscope){
+                    if(touchcount>2) {
+                        accelY = 0;
+                    }
+                    else
+                        accelX=0;
+                }
+                    /*touch = new Vector2();
+                    touch.x = (int) (screenX * 480 / Gdx.graphics.getWidth());
+                    touch.y = (int) (screenY * 800 / Gdx.graphics.getHeight());
+                    touch.y = 800 - touch.y;
+                    System.out.println(touch.x+":"+touch.y);*/
                 if (com.mygdx.purefaithstudio.Config.persistent) {
 					//partlay.setWind((240 - touch.x) * 0.2f);
                     if(partlay!=null) {

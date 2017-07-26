@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -35,10 +37,12 @@ import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.mygdx.purefaithstudio.Config;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
 import java.util.ArrayList;
 
-public class SetWallpaperActivity extends AppCompatActivity implements RewardedVideoAdListener{
+public class SetWallpaperActivity extends AppCompatActivity implements RewardedVideoAdListener,View.OnClickListener,GalleryAdapter.ItemClickListener{
     //google ads
 	private RewardedVideoAd mAd;
     private InterstitialAd mInterstitialAd;
@@ -55,14 +59,27 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private int color;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
-    private GridView gridView;
-    private GridViewImageAdapter gridAdapter;
+    //private GridView gridView;
+    //private GridViewImageAdapter gridAdapter;
+    private RecyclerView recyclerView;
+    private GalleryAdapter adapter;
     private String lastWallp="0";
+    private ResideMenu resideMenu;
+    private ResideMenuItem itemPromo;
+    private ResideMenuItem itemRate;
+    private ResideMenuItem itemShare;
+    private ResideMenuItem itemContact;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.wallpaper_main);
+		setContentView(R.layout.wallpaper_main);try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.burger);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+        catch (Exception e){}
+        setUpMenu();
         context = getApplicationContext();
 		colorp = (ColorPicker) findViewById(R.id.colorPicker);
 		/*r =  (TextView) findViewById(R.id.red);
@@ -102,7 +119,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             }
         });
 
-        //Image grid
+       /* //Image grid
         gridView = (GridView) findViewById(R.id.imageGrid);
         gridAdapter = new GridViewImageAdapter(SetWallpaperActivity.this,R.layout.lwitem,getData());
         gridView.setAdapter(gridAdapter);
@@ -110,48 +127,16 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position * 10 < (Config.points + Config.fps)){
-                    lastWallp = Config.listTest;
-                    Config.listTest = ""+position;
-                    editor.putString("listTest",""+position);
-                    editor.commit();
-                    try {
-                        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-                        if(Config.lockScreen)
-                            intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
-                        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
-                        startActivityForResult(intent,requestCode);
-                    } catch (Exception e) {
-                        try {
-                            Log.e("harsim", "moved to chooser");
-                            Intent intent2 = new Intent();
-                            Toast makeText = Toast.makeText(SetWallpaperActivity.this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
-                            intent2.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-                            startActivityForResult(intent2, requestCode);
-                            makeText.show();
-                        } catch (Exception e2) {
-                            Toast.makeText(SetWallpaperActivity.this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                    }
-                }
-                else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SetWallpaperActivity.this);
-                    builder.setTitle("Insufficient Points!!");
-                    builder.setMessage("You have "+Config.points+" points, You need "+(position*10 - (Config.points+Config.fps -10))+" points.\n\n" +
-                            "You can get more points using earn button above.");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int i) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-                }
+               chosewall(position);
             }
         });
+        image grid ends*/
+       //image grid recycler view
+        recyclerView = (RecyclerView) findViewById(R.id.parallaxGallery);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        adapter = new GalleryAdapter(this,getData());
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
 
         //ads
         mAd = MobileAds.getRewardedVideoAdInstance(this);
@@ -176,7 +161,66 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         /*mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);*/
 
     }
+    //reside menu starts
+    private void setUpMenu() {
 
+        // attach to current activity;
+        resideMenu = new ResideMenu(this);
+        //set background of menu
+        resideMenu.setBackground(R.drawable.resideback);
+        resideMenu.attachToActivity(this);
+        resideMenu.setMenuListener(menuListener);
+        //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip.
+        resideMenu.setScaleValue(0.5f);
+
+        resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+        resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_LEFT);
+        // create menu items;
+        itemPromo = new ResideMenuItem(this, R.drawable.promo, "Promo");
+        itemRate = new ResideMenuItem(this, R.drawable.rate, "Rate It");
+        itemShare = new ResideMenuItem(this, R.drawable.home, "Share");
+        itemContact = new ResideMenuItem(this, R.drawable.profile, "Mail us");
+
+        itemPromo.setOnClickListener(this);
+        itemRate.setOnClickListener(this);
+        itemShare.setOnClickListener(this);
+        itemContact.setOnClickListener(this);
+
+        resideMenu.addMenuItem(itemPromo, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemShare, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemRate, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemContact, ResideMenu.DIRECTION_LEFT);
+    }
+    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        @Override
+        public void openMenu() {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.backarrow);
+            //Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void closeMenu() {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.burger);
+            //Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
+        }
+    };
+    @Override
+    public void onClick(View view) {
+
+        if (view == itemPromo){
+            promo();
+        }else if (view == itemRate) {
+            rateit();
+        }else if (view == itemShare) {
+            shareTextUrl();
+        }else if (view == itemContact) {
+            contactUs();
+        }
+
+        resideMenu.closeMenu();
+    }
+
+    //reside menu ends here
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -188,34 +232,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     protected void onPause() {
         super.onPause();
     }
-
-    public void onClick(View view) {
-		try {
-			Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-            if(Config.lockScreen)
-			    intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
-			intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
-			startActivityForResult(intent,this.requestCode);
-		} catch (ActivityNotFoundException e) {
-            try {
-                Log.e("harsim", "moved to chooser");
-                Intent intent = new Intent();
-                Toast makeText = Toast.makeText(this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
-                intent.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
-                startActivityForResult(intent, this.requestCode);
-                makeText.show();
-            }
-            catch (ActivityNotFoundException e2){
-                Toast.makeText(this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
-            }
-		}
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
-        else if(!mInterstitialAd.isLoading()){
-                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());
-        }
-	}
 
 	public void colorBackPick(View view) {
 		color = colorp.getColor();
@@ -242,85 +258,27 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
+        if (id == android.R.id.home) {
+            resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+            return true;
+        }
 		if (id == R.id.Promocode) {
-            promoDone = prefs.getBoolean("promo",false);
-            if(!promoDone) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Enter PromoCode:");
-                final EditText input = new EditText(this);
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);// Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String m_Text = input.getText().toString();
-                        if (m_Text.equals(Config.promo)) {
-                            editor.putInt("points", 60);
-                            editor.putBoolean("promo",true);
-                            editor.commit();
-                            wp.setText("" + prefs.getInt("points", 0));
-                            Config.points = prefs.getInt("points", 0);
-                        }
-                        dialog.cancel();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-            }
-            else{
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Already Recieved!!");
-                builder.setMessage("You have already claimed the promo rewards");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-            }
+            promo();
 			return true;
 		}
 
         if (id == R.id.Rateus) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Review Us!!");
-            builder.setMessage("Please give us a review.\nIt helps support Development.");
-            builder.setPositiveButton("Later", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.setNeutralButton("Sure", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
-                    Uri uri = Uri.parse("market://details?id=com.mygdx.purefaithstudio.android");
-                    Intent openPlayStore = new Intent(Intent.ACTION_VIEW, uri);
-                    try {
-                        startActivity(openPlayStore);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(SetWallpaperActivity.this, " unable to find market app",   Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-            builder.show();
+            rateit();
             return true;
         }
 
         if (id == R.id.Share) {
             shareTextUrl();
+            return true;
         }
         if(id == R.id.Contactus){
             contactUs();
+            return true;
         }
         /*if(id == R.id.Help){
 
@@ -371,7 +329,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             editor.putInt("points", Config.points);
             editor.commit();
             //wp.setText(""+Config.points);
-            gridAdapter.notifyDataSetInvalidated();
+            //gridAdapter.notifyDataSetInvalidated();
         }
         catch(Exception e){
 
@@ -394,7 +352,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
         TypedArray names = getResources().obtainTypedArray(R.array.settings_listTestEntries);
         for (int i = 0; i < imgs.length(); i++) {
-            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i)));
+            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i),"By Harsimran Singh",1000));
         }
         return imageItems;
     }
@@ -415,6 +373,77 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 Log.i("harsim","Ok");
             }
         }
+    }
+    private void promo(){
+
+        promoDone = prefs.getBoolean("promo",false);
+        if(!promoDone) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter PromoCode:");
+            final EditText input = new EditText(this);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);// Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String m_Text = input.getText().toString();
+                    if (m_Text.equals(Config.promo)) {
+                        editor.putInt("points", 60);
+                        editor.putBoolean("promo",true);
+                        editor.commit();
+                        wp.setText("" + prefs.getInt("points", 0));
+                        Config.points = prefs.getInt("points", 0);
+                    }
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Already Recieved!!");
+            builder.setMessage("You have already claimed the promo rewards");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
+    }
+    private void rateit(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Review Us!!");
+        builder.setMessage("Please give us a review.\nIt helps support Development.");
+        builder.setPositiveButton("Later", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setNeutralButton("Sure", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                Uri uri = Uri.parse("market://details?id=com.mygdx.purefaithstudio.android");
+                Intent openPlayStore = new Intent(Intent.ACTION_VIEW, uri);
+                try {
+                    startActivity(openPlayStore);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(SetWallpaperActivity.this, " unable to find market app",   Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.show();
     }
     private void shareTextUrl() {
         try {
@@ -450,6 +479,54 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         } catch (Exception e) {
             Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + "purefaithstudio"));
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        choosewall(position);
+    }
+
+    public void choosewall(int position){
+        if(position * 10 < (Config.points + Config.fps)){
+            lastWallp = Config.listTest;
+            Config.listTest = ""+position;
+            editor.putString("listTest",""+position);
+            editor.commit();
+            try {
+                Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+                if(Config.lockScreen)
+                    intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
+                intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LWP_Android.class));
+                startActivityForResult(intent,requestCode);
+            } catch (Exception e) {
+                try {
+                    Log.e("harsim", "moved to chooser");
+                    Intent intent2 = new Intent();
+                    Toast makeText = Toast.makeText(SetWallpaperActivity.this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
+                    intent2.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
+                    startActivityForResult(intent2, requestCode);
+                    makeText.show();
+                } catch (Exception e2) {
+                    Toast.makeText(SetWallpaperActivity.this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
+                }
+            }
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            }
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(SetWallpaperActivity.this);
+            builder.setTitle("Insufficient Points!!");
+            builder.setMessage("You have "+Config.points+" points, You need "+(position*10 - (Config.points+Config.fps -10))+" points.\n\n" +
+                    "You can get more points using earn button above.");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
         }
     }
 	/*private class ImageData{

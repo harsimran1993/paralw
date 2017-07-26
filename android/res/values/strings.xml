@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Live HD Wallpapers</string>
+    <string name="app_name">3D parallax BG</string>
     <string name="app_description">Anime n more Live Wallpaper.</string>
     <string name="settings_generalTitle">Wallpaper Settings</string>
     <string name="settings_wallTitle">Choose Wallpaper</string>
@@ -13,6 +13,8 @@
     <string name="settings_listTestTitle">Live Wallpaper</string>
     <string name="settings_MoveBoxSummary">Variation on effects over a cyclic period.</string>
     <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.</string>
+    <string name="settings_GyroTitle">Enable Gyroscope</string>
+    <string name="settings_GyroSummary">uses Gyroscope if available\ndefaults to Accelerometer.</string>
 
     <string-array name="settings_listTestEntries">
         <item>parallax-Butterly</item>
@@ -98,5 +100,12 @@
     <string name="earn">Earn Points</string>
     <string name="WallPoints">Points:</string>
     <string name="SeekCat">Accelerometer</string>
+    <string name="title_activity_galery">galery</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

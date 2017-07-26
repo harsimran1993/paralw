@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class Preferences extends PreferenceActivity implements OnPreferenceChangeListener {
-	private CheckBoxPreference checkBoxTest,moveBox,setLock;
+	private CheckBoxPreference checkBoxTest,moveBox,setLock,useGyro;
 	private ListPreference listTest;
     private int points=0;
 	private InterstitialAd mInterstitialAd;
@@ -51,6 +51,10 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		setLock = (CheckBoxPreference) findPreference("setLockScreen");
 		setLock.setChecked(Config.lockScreen);
 		setLock.setOnPreferenceChangeListener(this);
+
+		useGyro = (CheckBoxPreference) findPreference("setGyro");
+		useGyro.setChecked(Config.useGyro);
+		useGyro.setOnPreferenceChangeListener(this);
 
 		listTest = (ListPreference) findPreference("listTest");
 		listTest.setValueIndex(Integer.parseInt(Config.listTest));
@@ -137,6 +141,15 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
             return true;
         }
+        if(preference == useGyro){
+			Config.useGyro = (Boolean) newValue;
+			useGyro.setChecked(Config.useGyro);
+			Config.save();
+			if(Config.useGyro)
+				Toast.makeText(this,"Touch with 3 fingers on wallpaper preview to recalibrate gyroscope \nYou may need to restart the app!!",Toast.LENGTH_SHORT).show();
+			return true;
+
+		}
         if (preference == listTest) {
             points = Integer.parseInt(newValue.toString()) * 10;
             if( points >= (Config.points + Config.fps)){

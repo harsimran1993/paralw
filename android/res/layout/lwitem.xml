@@ -1,33 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginTop="5dp"
-    android:background="@drawable/grid_color_selector">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
+    android:layout_height="270dp"
+    android:padding="5dp"
+    android:layout_margin="5dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="5dp">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp" >
-    </ImageView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/grid_color_selector">
 
-    <ImageView
-        android:id="@+id/lock"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/lock"
-        android:layout_gravity="center_horizontal|center_vertical">
-    </ImageView>
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="20dip"
-        android:layout_gravity="center_horizontal|bottom"
-        android:padding="12dp"
-        android:background="#AA000000"
-        android:textColor="#ffffffff"
-        android:textSize="12sp"
-        android:text="Image-Name"/>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="220dp">
+            </ImageView>
+            <ImageView
+                android:id="@+id/lock"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/lock"
+                android:layout_gravity="center_horizontal|center_vertical">
+            </ImageView>
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal|bottom"
+                android:padding="10dp"
+                android:background="#AA000000"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"
+                android:text="Image-Name"/>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
 
-</FrameLayout>
+            <TextView
+                android:id="@+id/madeBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textSize="12dp"
+                android:textColor="@color/black_light"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="3dp"
+                android:text="By Harsimran Singh"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:paddingRight="5dp">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/download"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/downloads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="sans-serif"
+                    android:textSize="12dp"
+                    android:textColor="@color/black_light"
+                    android:text="100000"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
