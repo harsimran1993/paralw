@@ -47,7 +47,9 @@ public class Main extends Base {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
         batch.enableBlending();
-        gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
+        if(Config.useGyro && !gyroscope) {
+            gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
+        }
        if(!parallax) {
            setInputProcessor();
        }
@@ -98,12 +100,16 @@ public class Main extends Base {
 			    partlay.loadeffect();
             loadImageTexture();
 		}
+        if(Config.useGyro && !gyroscope) {
+                gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
+        }
+        //Gdx.app.log("harsim","render");
 		delta = delta > 0.2f ? 0.2f : delta;
         if(partlay!=null)
 		    partlay.update(delta);
         //accelerometer
         if(gyroscope)
-            accelX+=Gdx.input.getGyroscopeY() * 0.75f;//roll
+            accelX-=Gdx.input.getGyroscopeY() * 0.7f;//roll
         else
 		    accelX = Gdx.input.getAccelerometerX();
         if(accelX > 7) accelX = 7;
@@ -111,9 +117,12 @@ public class Main extends Base {
         accelX = accelX * fact+ lastAccelX * (1-fact);
 
         if(gyroscope)
-            accelY+=Gdx.input.getGyroscopeX() *0.75f;//pitch
+            accelY+=Gdx.input.getGyroscopeX() * 0.7f;//pitch
         else
 	        accelY = Gdx.input.getAccelerometerY() -4.5f;
+
+        if(accelY > 7) accelY = 7;
+        if(accelY < -7) accelY = -7;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
 	    /*accelZ = Gdx.input.getAccelerometerZ() ;
         accelZ = accelZ * fact+ lastAccelZ * (1-fact);*/
@@ -131,6 +140,10 @@ public class Main extends Base {
         lastAccelZ = accelZ;
         }*/
 
+        if(gyroscope && touchcount > 1){
+            accelY = 0;
+            accelX = 0;
+        }
         if (isAndroid)
 		limitFPS();
 
@@ -155,10 +168,11 @@ public class Main extends Base {
                     dipMul = i*Config.Sensitivity;
                     moveX = accelX * dipMul;
                     moveY = accelY * dipMul;
-                    if (moveX > 7 * dipMul) moveX = 7 * dipMul;
+                    /*if (moveX > 7 * dipMul) moveX = 7 * dipMul;
                     if (moveX < -(7 * dipMul)) moveX = -7 * dipMul;
                     if (moveY > 7 * dipMul) moveY = 7 * dipMul;
-                    if (moveY < -(7 * dipMul)) moveY = -7 * dipMul;
+                    if (moveY < -(7 * dipMul)) moveY = -7 * dipMul;*/
+                    //if (moveY > 10 * dipMul || moveY < -(10 * dipMul)) accelY =0;
                     batch.draw(texture[i], -(7 * dipMul) + moveX, -(7 * dipMul)+ moveY, 480+(14*dipMul), 800+(14*dipMul));
                 }
             }
@@ -232,13 +246,6 @@ public class Main extends Base {
                 // TODO Auto-generated method stub
 
                 touchcount++;
-                if(touchcount>1 && gyroscope){
-                    if(touchcount>2) {
-                        accelY = 0;
-                    }
-                    else
-                        accelX=0;
-                }
                     /*touch = new Vector2();
                     touch.x = (int) (screenX * 480 / Gdx.graphics.getWidth());
                     touch.y = (int) (screenY * 800 / Gdx.graphics.getHeight());
@@ -456,6 +463,32 @@ public class Main extends Base {
                 texture[2]  = new Texture(Gdx.files.internal("data/flow1.png"));
                 texture[3]  = new Texture(Gdx.files.internal("data/flow2.png"));
                 texture[4]  = new Texture(Gdx.files.internal("data/flow3.jpg"));
+                break;
+            case 20:
+                size=3;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/wonder0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/wonder1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/wonder2.jpg"));
+                break;
+            case 21:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/assassin0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/assassin1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/assassin2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/assassin3.jpg"));
+                break;
+            case 22:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/avenger0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/avenger1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/avenger2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/avenger3.jpg"));
                 break;
             default:
                 size=1;

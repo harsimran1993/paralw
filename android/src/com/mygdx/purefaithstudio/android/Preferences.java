@@ -5,8 +5,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.mygdx.purefaithstudio.Config;
 
+import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -18,6 +22,8 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 @SuppressWarnings("deprecation")
 public class Preferences extends PreferenceActivity implements OnPreferenceChangeListener {
 	private CheckBoxPreference checkBoxTest,moveBox,setLock,useGyro;
@@ -25,6 +31,8 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
     private int points=0;
 	private InterstitialAd mInterstitialAd;
     private SeekBarPreference seekBar;
+    private boolean sensorChange=false;
+    WallpaperManager myWallpaperManager;
 
 	@Override
 	protected void onPostCreate(Bundle bundle) {
@@ -68,10 +76,11 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		more.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference) {
 				openUrl(R.string.url_more);
-
 				return true;
 			}
 		});
+
+        myWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 
 		mInterstitialAd = new InterstitialAd(this);
 		mInterstitialAd.setAdUnitId("ca-app-pub-5437679392990541/1888200515");
@@ -103,7 +112,14 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
     public void onBackPressed() {
         if(mInterstitialAd.isLoaded())
             mInterstitialAd.show();
-        super.onBackPressed();
+        if(sensorChange){
+            Intent intent = new Intent(Preferences.this,SetWallpaperActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -123,30 +139,32 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
                 Config.moving = (Boolean) newValue;
                 moveBox.setChecked(Config.moving);
                 Config.save();
-           /* if(mInterstitialAd.isLoaded())
-                mInterstitialAd.show();
-            else if(!mInterstitialAd.isLoading())
-                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
             return true;
         }
         if (preference == setLock) {
-                Config.lockScreen = (Boolean) newValue;
-                setLock.setChecked(Config.lockScreen);
-                Config.save();
-			if(Config.lockScreen)
-				Toast.makeText(this,"click on set-wallaper again for it to take effect!!",Toast.LENGTH_SHORT).show();
-           /* if(mInterstitialAd.isLoaded())
-                mInterstitialAd.show();
-            else if(!mInterstitialAd.isLoading())
-                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("49C0FA06A59AFA686D150669805EA0E1").build());*/
+            Config.lockScreen = (Boolean) newValue;
+            setLock.setChecked(Config.lockScreen);
+            Config.save();
+            try {
+                myWallpaperManager.clear();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            sensorChange = true;
+            Toast.makeText(this, "please re-select a wallpaper from gallery!!", Toast.LENGTH_SHORT).show();
             return true;
         }
         if(preference == useGyro){
 			Config.useGyro = (Boolean) newValue;
 			useGyro.setChecked(Config.useGyro);
 			Config.save();
-			if(Config.useGyro)
-				Toast.makeText(this,"Touch with 3 fingers on wallpaper preview to recalibrate gyroscope \nYou may need to restart the app!!",Toast.LENGTH_SHORT).show();
+            try {
+                myWallpaperManager.clear();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            sensorChange = true;
+            Toast.makeText(this, "please re-select a wallpaper from gallery!!", Toast.LENGTH_SHORT).show();
 			return true;
 
 		}

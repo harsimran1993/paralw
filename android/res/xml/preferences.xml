@@ -44,10 +44,8 @@
 	<PreferenceCategory android:key="settings_extra" android:title="@string/settings_extraTitle">
 		<Preference android:key="more"
 					android:title="@string/settings_button_otherAppsTitle" />
-
-		<Preference android:key="support"
-					android:title="@string/settings_button_supportTitle"
-					android:summary="@string/support_email"
-					android:enabled="false" />
+		<Preference android:key="QA"
+		android:title="@string/settings_QATitle"
+			android:summary="@string/settings_QASummary"/>
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/grid_color_selector">
 
             <ImageView
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="15dp"
             android:orientation="vertical">
 
             <TextView
@@ -55,7 +55,7 @@
                 android:fontFamily="sans-serif"
                 android:textSize="12dp"
                 android:textColor="@color/black_light"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="3dp"
                 android:text="By Harsimran Singh"/>
@@ -64,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="right"
-                android:paddingRight="5dp">
+                android:paddingRight="5dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="12dp"

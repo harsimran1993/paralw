@@ -101,8 +101,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 		b.setText("B:" + Color.blue(color));*/
         /*editor.putInt("points",300);
         editor.commit();*/
-		Config.points = prefs.getInt("points", 0);		wp.setText("" + Config.points);
-
+		Config.points = prefs.getInt("points", 0);
+        wp.setText("" + Config.points);
+        Config.useGyro = prefs.getBoolean("gyroscope",false);
         //colorPicker Collapse
         colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
         colorBackLayout = (LinearLayout) findViewById(R.id.colorBackLayout);
@@ -178,7 +179,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         // create menu items;
         itemPromo = new ResideMenuItem(this, R.drawable.promo, "Promo");
         itemRate = new ResideMenuItem(this, R.drawable.rate, "Rate It");
-        itemShare = new ResideMenuItem(this, R.drawable.home, "Share");
+        itemShare = new ResideMenuItem(this, R.drawable.share, "Share");
         itemContact = new ResideMenuItem(this, R.drawable.profile, "Mail us");
 
         itemPromo.setOnClickListener(this);
@@ -329,7 +330,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             editor.putInt("points", Config.points);
             editor.commit();
             //wp.setText(""+Config.points);
-            //gridAdapter.notifyDataSetInvalidated();
+            adapter.notifyDataSetChanged();
         }
         catch(Exception e){
 
@@ -361,9 +362,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == requestCode) {
-            Log.i("harsim","activityresult recieved");
+            //Log.i("harsim","activityresult recieved");
             // Make sure the request was successful
-            if (resultCode == RESULT_CANCELED) {
+            /*if (resultCode == RESULT_CANCELED) {
                 Log.i("harsim","cancel");
                 Config.listTest = lastWallp;
                 editor.putString("listTest",lastWallp);
@@ -371,6 +372,10 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             }
             if(resultCode == RESULT_OK){
                 Log.i("harsim","Ok");
+            }*/
+
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
             }
         }
     }
@@ -389,11 +394,12 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 public void onClick(DialogInterface dialog, int which) {
                     String m_Text = input.getText().toString();
                     if (m_Text.equals(Config.promo)) {
-                        editor.putInt("points", 60);
+                        editor.putInt("points", 40);
                         editor.putBoolean("promo",true);
                         editor.commit();
                         wp.setText("" + prefs.getInt("points", 0));
                         Config.points = prefs.getInt("points", 0);
+                        adapter.notifyDataSetChanged();
                     }
                     dialog.cancel();
                 }
@@ -488,6 +494,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     }
 
     public void choosewall(int position){
+        Log.i("harsim","position"+position);
         if(position * 10 < (Config.points + Config.fps)){
             lastWallp = Config.listTest;
             Config.listTest = ""+position;
@@ -501,7 +508,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 startActivityForResult(intent,requestCode);
             } catch (Exception e) {
                 try {
-                    Log.e("harsim", "moved to chooser");
+                    //Log.e("harsim", "moved to chooser");
                     Intent intent2 = new Intent();
                     Toast makeText = Toast.makeText(SetWallpaperActivity.this, "Choose Live wallpaper-3d parallax...\n in the list to start the Live Wallpaper.", Toast.LENGTH_SHORT);
                     intent2.setAction(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER);
@@ -511,14 +518,11 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                     Toast.makeText(SetWallpaperActivity.this, "Please go to your system settings or long press on your homescreen to set Live Wallpaper", Toast.LENGTH_SHORT).show();
                 }
             }
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            }
         }
         else{
             AlertDialog.Builder builder = new AlertDialog.Builder(SetWallpaperActivity.this);
             builder.setTitle("Insufficient Points!!");
-            builder.setMessage("You have "+Config.points+" points, You need "+(position*10 - (Config.points+Config.fps -10))+" points.\n\n" +
+            builder.setMessage("You have "+Config.points+" points, You need "+(position*10 - (Config.points+Config.fps -10))+" more points.\n\n" +
                     "You can get more points using earn button above.");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override

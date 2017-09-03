@@ -14,7 +14,9 @@
     <string name="settings_MoveBoxSummary">Variation on effects over a cyclic period.</string>
     <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.</string>
     <string name="settings_GyroTitle">Enable Gyroscope</string>
-    <string name="settings_GyroSummary">uses Gyroscope if available\ndefaults to Accelerometer.</string>
+    <string name="settings_GyroSummary">keep disabled for accelerometer \n Double tap on wallpaper to re-centre axis.</string>
+    <string name="settings_QATitle">Experiencing Black Screen?</string>
+    <string name="settings_QASummary">Please white-list the app in task killers.\nExample: Clean Master ,CCleaner etc.\n\nXiaomi users\nAllow app to Auto Start in \nSettings >Permissions>Autostart\n\n This prevents wallpaper service kill.\n we\'re sorry for the inconvenience. </string>
 
     <string-array name="settings_listTestEntries">
         <item>parallax-Butterly</item>
@@ -36,7 +38,10 @@
         <item>parallax-Dragons</item>
         <item>parallax-Naruto</item>
         <item>parallax-Rain</item>
-        <item>parallax-nature</item>
+        <item>parallax-Nature</item>
+        <item>parallax-Wonderland Chester Cat</item>
+        <item>parallax-Assassin\'s creed</item>
+        <item>parallax-Avenger\'s</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -59,6 +64,9 @@
         <item>17</item>
         <item>18</item>
         <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
     </string-array>
     <string-array name="image_ids">
         <item>@drawable/image9</item>
@@ -81,6 +89,9 @@
         <item>@drawable/image18</item>
         <item>@drawable/image19</item>
         <item>@drawable/image20</item>
+        <item>@drawable/image21</item>
+        <item>@drawable/image22</item>
+        <item>@drawable/image23</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
