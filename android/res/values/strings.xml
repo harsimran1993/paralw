@@ -119,4 +119,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Change this to your app key -->
+    <string name="APP_KEY">s92dfthrsdeolv4</string>
+
+
+    <!-- Change this to your app key secret -->
+    <string name="APP_SECRET">orsfn2rcvpg3yt1</string>
+
+
 </resources>

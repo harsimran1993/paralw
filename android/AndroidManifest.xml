@@ -11,6 +11,10 @@
     <supports-screens android:anyDensity="true" />
 
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -46,6 +50,23 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Dropbox AuthActivity -->
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask">
+            <intent-filter>
+
+                <!-- Insert your app key after “db-  ...” -->
+                <data android:scheme="db-s92dfthrsdeolv4" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

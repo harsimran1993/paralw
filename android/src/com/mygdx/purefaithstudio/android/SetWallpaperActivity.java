@@ -29,6 +29,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.session.AppKeyPair;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -69,7 +73,45 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private ResideMenuItem itemRate;
     private ResideMenuItem itemShare;
     private ResideMenuItem itemContact;
+    private DropboxAPI<AndroidAuthSession> mDBApi;
+    final static String APP_KEY = "s92dfthrsdeolv4";
+    final static String APP_SECRET ="orsfn2rcvpg3yt1";
+    final static String ACCESS_TOKEN="m9jm8LjuFpAAAAAAAAAACHbnHj_cpUX-DLwEVrqcDE3teWiyCxrYVIJTr122CXih";
+    protected void initialize_session(){
 
+        // store app key and secret key
+        AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeys);
+        session.setOAuth2AccessToken(ACCESS_TOKEN);
+        // Pass app key pair to the new DropboxAPI object.
+        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+
+        // MyActivity below should be your activity class name
+        // start authentication.
+        //mDBApi.getSession().startOAuth2Authentication(SetWallpaperActivity.this);
+    }
+
+    protected void fetch_list(){
+        String fnames[];
+        int i=0;
+        try {
+            DropboxAPI.Entry dirent  = mDBApi.metadata("/",1000,null,true,null);
+            ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
+            ArrayList<String> dir=new ArrayList<String>();
+            for (DropboxAPI.Entry ent: dirent.contents)
+            {
+                files.add(ent);// Add it to the list of thumbs we can choose from
+                //dir = new ArrayList<String>();
+                dir.add(new String(files.get(i++).path));
+            }
+            i=0;
+            fnames=dir.toArray(new String[dir.size()]);
+
+            System.out.println(fnames);
+        } catch (DropboxException e) {
+            e.printStackTrace();
+        }
+    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,7 +119,13 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.burger);
             getSupportActionBar().setHomeButtonEnabled(true);
+
+            initialize_session();
         }
+
+        //dropdox test
+
+
         catch (Exception e){}
         setUpMenu();
         context = getApplicationContext();
