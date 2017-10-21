@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,19 +21,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
-import com.dropbox.client2.session.AppKeyPair;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -63,8 +58,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private int color;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
-    //private GridView gridView;
-    //private GridViewImageAdapter gridAdapter;
     private RecyclerView recyclerView;
     private GalleryAdapter adapter;
     private String lastWallp="0";
@@ -73,45 +66,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     private ResideMenuItem itemRate;
     private ResideMenuItem itemShare;
     private ResideMenuItem itemContact;
-    private DropboxAPI<AndroidAuthSession> mDBApi;
-    final static String APP_KEY = "s92dfthrsdeolv4";
-    final static String APP_SECRET ="orsfn2rcvpg3yt1";
-    final static String ACCESS_TOKEN="m9jm8LjuFpAAAAAAAAAACHbnHj_cpUX-DLwEVrqcDE3teWiyCxrYVIJTr122CXih";
-    protected void initialize_session(){
-
-        // store app key and secret key
-        AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-        AndroidAuthSession session = new AndroidAuthSession(appKeys);
-        session.setOAuth2AccessToken(ACCESS_TOKEN);
-        // Pass app key pair to the new DropboxAPI object.
-        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
-
-        // MyActivity below should be your activity class name
-        // start authentication.
-        //mDBApi.getSession().startOAuth2Authentication(SetWallpaperActivity.this);
-    }
-
-    protected void fetch_list(){
-        String fnames[];
-        int i=0;
-        try {
-            DropboxAPI.Entry dirent  = mDBApi.metadata("/",1000,null,true,null);
-            ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
-            ArrayList<String> dir=new ArrayList<String>();
-            for (DropboxAPI.Entry ent: dirent.contents)
-            {
-                files.add(ent);// Add it to the list of thumbs we can choose from
-                //dir = new ArrayList<String>();
-                dir.add(new String(files.get(i++).path));
-            }
-            i=0;
-            fnames=dir.toArray(new String[dir.size()]);
-
-            System.out.println(fnames);
-        } catch (DropboxException e) {
-            e.printStackTrace();
-        }
-    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,12 +74,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.burger);
             getSupportActionBar().setHomeButtonEnabled(true);
 
-            initialize_session();
         }
-
-        //dropdox test
-
-
         catch (Exception e){}
         setUpMenu();
         context = getApplicationContext();
@@ -167,19 +116,6 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 }
             }
         });
-
-       /* //Image grid
-        gridView = (GridView) findViewById(R.id.imageGrid);
-        gridAdapter = new GridViewImageAdapter(SetWallpaperActivity.this,R.layout.lwitem,getData());
-        gridView.setAdapter(gridAdapter);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               chosewall(position);
-            }
-        });
-        image grid ends*/
        //image grid recycler view
         recyclerView = (RecyclerView) findViewById(R.id.parallaxGallery);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -187,10 +123,19 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
+        if(!Config.useGyro){
+
+            PackageManager packageManager = getPackageManager();
+            if(packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)){
+                Config.useGyro = true;
+                editor.putBoolean("gyroscope",true);
+                editor.commit();
+            }
+        }
         //ads
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
-        loadRewardedVideoAd();
+        //loadRewardedVideoAd();
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-5437679392990541/1888200515");
@@ -216,7 +161,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         // attach to current activity;
         resideMenu = new ResideMenu(this);
         //set background of menu
-        resideMenu.setBackground(R.drawable.resideback);
+        resideMenu.setBackground(R.drawable.wallpdef);
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);
         //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip.
@@ -228,14 +173,14 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         itemPromo = new ResideMenuItem(this, R.drawable.promo, "Promo");
         itemRate = new ResideMenuItem(this, R.drawable.rate, "Rate It");
         itemShare = new ResideMenuItem(this, R.drawable.share, "Share");
-        itemContact = new ResideMenuItem(this, R.drawable.profile, "Mail us");
+        itemContact = new ResideMenuItem(this, R.drawable.email, "Mail us");
 
         itemPromo.setOnClickListener(this);
         itemRate.setOnClickListener(this);
         itemShare.setOnClickListener(this);
         itemContact.setOnClickListener(this);
 
-        resideMenu.addMenuItem(itemPromo, ResideMenu.DIRECTION_LEFT);
+        //resideMenu.addMenuItem(itemPromo, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemShare, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemRate, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemContact, ResideMenu.DIRECTION_LEFT);
@@ -256,9 +201,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     @Override
     public void onClick(View view) {
 
-        if (view == itemPromo){
+        /*if (view == itemPromo){
             promo();
-        }else if (view == itemRate) {
+        }else*/ if (view == itemRate) {
             rateit();
         }else if (view == itemShare) {
             shareTextUrl();
@@ -337,11 +282,15 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 	}
 
 	public void earn(View view){
-		if (mAd.isLoaded()) {
+
+        earn.setVisibility(View.GONE);
+        loadingVid.setVisibility(View.VISIBLE);
+        loadRewardedVideoAd();
+		/*if (mAd.isLoaded()) {
 			mAd.show();
 		}
 		else{
-		}
+		}*/
 	}
 
 	//ads
@@ -350,8 +299,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 	}
 	@Override
 	public void onRewardedVideoAdLoaded() {
-        earn.setVisibility(View.VISIBLE);
-        loadingVid.setVisibility(View.GONE);
+        mAd.show();
+        //earn.setVisibility(View.VISIBLE);
+        //loadingVid.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -366,9 +316,11 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	@Override
 	public void onRewardedVideoAdClosed() {
-        loadRewardedVideoAd();
-        earn.setVisibility(View.GONE);
-        loadingVid.setVisibility(View.VISIBLE);
+        //loadRewardedVideoAd();
+        //earn.setVisibility(View.GONE);
+        //loadingVid.setVisibility(View.VISIBLE);
+        earn.setVisibility(View.VISIBLE);
+        loadingVid.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -392,7 +344,9 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
 
 	@Override
 	public void onRewardedVideoAdFailedToLoad(int i) {
-        loadRewardedVideoAd();
+        //loadRewardedVideoAd();
+        earn.setVisibility(View.VISIBLE);
+        loadingVid.setVisibility(View.GONE);
 
 	}
 
@@ -401,7 +355,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
         TypedArray names = getResources().obtainTypedArray(R.array.settings_listTestEntries);
         for (int i = 0; i < imgs.length(); i++) {
-            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i),"By Harsimran Singh",1000));
+            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), names.getString(i),"",1000));
         }
         return imageItems;
     }
@@ -428,7 +382,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         }
     }
     private void promo(){
-
+        Toast.makeText(SetWallpaperActivity.this, "The promo has ended",   Toast.LENGTH_LONG).show();
+/*
         promoDone = prefs.getBoolean("promo",false);
         if(!promoDone) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -471,7 +426,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 }
             });
             builder.show();
-        }
+        }*/
     }
     private void rateit(){
 

@@ -198,7 +198,7 @@ public class ParticleLayer {
                 pooleff.scaleEffect(0.3f);
                 effects.add(pooleff);
                 break;
-			
+
 		default:
             break;
 		}

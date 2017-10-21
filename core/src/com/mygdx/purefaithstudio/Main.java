@@ -165,7 +165,7 @@ public class Main extends Base {
         if(texture !=null) {
             for (int i = size - 1; i > 0; i--) {
                 if (texture[i] != null) {
-                    dipMul = i*Config.Sensitivity;
+                    dipMul = i*(Config.Sensitivity / size);
                     moveX = accelX * dipMul;
                     moveY = accelY * dipMul;
                     /*if (moveX > 7 * dipMul) moveX = 7 * dipMul;
@@ -358,7 +358,7 @@ public class Main extends Base {
                 size=1;
                 parallax = false;
                 texture = new Texture[size];
-                texture[0]  = new Texture(Gdx.files.internal("data/yukatagirl.png"));
+                texture[0]  = new Texture(Gdx.files.internal("data/yukatagirl.jpg"));
 			    break;
 			case 7:
                 size=1;
@@ -414,8 +414,8 @@ public class Main extends Base {
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/hulkbuster0.png"));
-                texture[1]  = new Texture(Gdx.files.internal("data/hulkbuster2.png"));
-                texture[2]  = new Texture(Gdx.files.internal("data/hulkbuster1.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/hulkbuster1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/hulkbuster2.png"));
                 texture[3] = new Texture(Gdx.files.internal("data/hulkbuster.jpg"));
                 break;
             case 14:
@@ -489,6 +489,81 @@ public class Main extends Base {
                 texture[1]  = new Texture(Gdx.files.internal("data/avenger1.png"));
                 texture[2]  = new Texture(Gdx.files.internal("data/avenger2.png"));
                 texture[3]  = new Texture(Gdx.files.internal("data/avenger3.jpg"));
+                break;
+            case 23:
+                size=3;
+                parallax = false;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/dxd0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/dxd1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/dxd2.jpg"));
+                break;
+            case 24:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/ngnl0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/ngnl1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/ngnl2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/ngnl3.jpg"));
+                break;
+            case 25:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/warcraft0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/warcraft1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/warcraft2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/warcraft3.jpg"));
+                break;
+            case 26:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/bandos0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/bandos1.jpg"));
+                break;
+            case 27:
+                size=3;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/justice0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/justice1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/justice2.jpg"));
+                break;
+            case 28:
+                size=3;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/alchemist0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/alchemist1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/alchemist2.jpg"));
+                break;
+            case 29:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/jungle0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/jungle1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/jungle2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/jungle3.jpg"));
+                break;
+            case 30:
+                size=3;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/DBZ0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/DBZ1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/DBZ2.jpg"));
+                break;
+            case 31:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/panda0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/panda1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/panda2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/panda3.jpg"));
                 break;
             default:
                 size=1;

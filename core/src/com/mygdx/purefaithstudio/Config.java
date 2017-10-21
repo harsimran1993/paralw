@@ -10,8 +10,8 @@ public class Config {
 	public static Preferences preferences = null;// = Gdx.app.getPreferences("preferences");
 	public static boolean lockScreen=false,persistent = false,moving=false,backColorchange=false,useGyro=false;
 	public static String listTest = "0";
-	public static int fps=160,points = 0;
-	public static float backColor[] = {0,0,0},Sensitivity=4.0f;
+	public static int fps=260,points = 0;
+	public static float backColor[] = {0,0,0},Sensitivity=2.0f;
     public static String promo="LWP#193#sin";
 
 	public static void load() {

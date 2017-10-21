@@ -8,25 +8,26 @@
         android:orderInCategory="1"
         android:title="promo"
         android:icon="@drawable/promo"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always|withText"
+        android:visible="false"/>
 
     <item
         android:id="@+id/Rateus"
         android:orderInCategory="2"
         android:title="Review"
-        android:icon="@drawable/rate"
-        app:showAsAction="always|withText"/>
+        android:icon="@drawable/rate"/>
 
     <item
         android:id="@+id/Share"
         android:orderInCategory="3"
         android:title="Share"
-        app:showAsAction="ifRoom|withText"/>
+        android:icon="@drawable/share"/>
 
     <item
         android:id="@+id/Contactus"
         android:orderInCategory="4"
-        android:title="Contact-us"/>
+        android:title="Contact-us"
+        android:icon="@drawable/email"/>
 
     <!--item
         android:id="@+id/Help"

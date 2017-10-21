@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">3D parallax BG</string>
+    <string name="app_name">3D parallax wallpapers</string>
     <string name="app_description">Anime n more Live Wallpaper.</string>
     <string name="settings_generalTitle">Wallpaper Settings</string>
     <string name="settings_wallTitle">Choose Wallpaper</string>
@@ -42,6 +42,15 @@
         <item>parallax-Wonderland Chester Cat</item>
         <item>parallax-Assassin\'s creed</item>
         <item>parallax-Avenger\'s</item>
+        <item>HighSchool DXD</item>
+        <item>NO GAME NO LIFE</item>
+        <item>Warcraft fanwall</item>
+        <item>Runescape - Hum Vs Bandos</item>
+        <item>Batman VS Superman</item>
+        <item>Fullmetal Alchemist</item>
+        <item>Jungle Book</item>
+        <item>Dragon Ball</item>
+        <item>Kung-Fu Panda</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -67,6 +76,15 @@
         <item>20</item>
         <item>21</item>
         <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
     </string-array>
     <string-array name="image_ids">
         <item>@drawable/image9</item>
@@ -92,6 +110,15 @@
         <item>@drawable/image21</item>
         <item>@drawable/image22</item>
         <item>@drawable/image23</item>
+        <item>@drawable/image24</item>
+        <item>@drawable/image25</item>
+        <item>@drawable/image26</item>
+        <item>@drawable/image27</item>
+        <item>@drawable/image28</item>
+        <item>@drawable/image29</item>
+        <item>@drawable/image30</item>
+        <item>@drawable/image32</item>
+        <item>@drawable/image31</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
