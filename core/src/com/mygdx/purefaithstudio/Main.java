@@ -25,7 +25,7 @@ public class Main extends Base {
 	private ParticleLayer partlay;
 	private FrameBuffer fbo;
 	private TextureRegion fbr;
-    private float accelX=0,lastAccelX=0,thresh=0.2f,fact=0.4f;
+    private float accelX=0,lastAccelX=0,thresh=0.3f,fact=0.4f,maxcurve=7,curvature = maxcurve * 2;
     private float accelY=0,lastAccelY=0;
     //private float accelZ=0,lastAccelZ=0;
     private float dipMul=0.0f,touchcount=0,moveX,moveY;
@@ -42,12 +42,12 @@ public class Main extends Base {
 
 	@Override
 	public void show() {
-		 Config.load();
+        Config.load();
         resetCamera(480,800);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
         batch.enableBlending();
-        if(Config.useGyro && !gyroscope) {
+        if(/*Config.useGyro &&*/ !gyroscope) {
             gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
         }
        if(!parallax) {
@@ -100,7 +100,7 @@ public class Main extends Base {
 			    partlay.loadeffect();
             loadImageTexture();
 		}
-        if(Config.useGyro && !gyroscope) {
+        if(/*Config.useGyro &&*/ !gyroscope) {
                 gyroscope = Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope);
         }
         //Gdx.app.log("harsim","render");
@@ -112,8 +112,8 @@ public class Main extends Base {
             accelX-=Gdx.input.getGyroscopeY() * 0.7f;//roll
         else
 		    accelX = Gdx.input.getAccelerometerX();
-        if(accelX > 7) accelX = 7;
-        if(accelX < -7) accelX = -7;
+        if(accelX > maxcurve) accelX = maxcurve;
+        if(accelX < -maxcurve) accelX = -maxcurve;
         accelX = accelX * fact+ lastAccelX * (1-fact);
 
         if(gyroscope)
@@ -121,8 +121,8 @@ public class Main extends Base {
         else
 	        accelY = Gdx.input.getAccelerometerY() -4.5f;
 
-        if(accelY > 7) accelY = 7;
-        if(accelY < -7) accelY = -7;
+        if(accelY > maxcurve) accelY = maxcurve;
+        if(accelY < -maxcurve) accelY = -maxcurve;
         accelY = accelY * fact+ lastAccelY * (1-fact) ;
 	    /*accelZ = Gdx.input.getAccelerometerZ() ;
         accelZ = accelZ * fact+ lastAccelZ * (1-fact);*/
@@ -165,7 +165,7 @@ public class Main extends Base {
         if(texture !=null) {
             for (int i = size - 1; i > 0; i--) {
                 if (texture[i] != null) {
-                    dipMul = i*(Config.Sensitivity / size);
+                    dipMul = i  * Config.Sensitivity;
                     moveX = accelX * dipMul;
                     moveY = accelY * dipMul;
                     /*if (moveX > 7 * dipMul) moveX = 7 * dipMul;
@@ -173,7 +173,7 @@ public class Main extends Base {
                     if (moveY > 7 * dipMul) moveY = 7 * dipMul;
                     if (moveY < -(7 * dipMul)) moveY = -7 * dipMul;*/
                     //if (moveY > 10 * dipMul || moveY < -(10 * dipMul)) accelY =0;
-                    batch.draw(texture[i], -(7 * dipMul) + moveX, -(7 * dipMul)+ moveY, 480+(14*dipMul), 800+(14*dipMul));
+                    batch.draw(texture[i], -(maxcurve * dipMul) + moveX, -(maxcurve * dipMul)+ moveY, 480+(curvature * dipMul), 800+(curvature * dipMul));
                 }
             }
         }
@@ -317,6 +317,8 @@ public class Main extends Base {
             }
             texture = null;
         }
+        //accelY = 0;
+        //accelX = 0;
         switch(Integer.parseInt(Config.listTest)){
             case 8:
                 size=1;
@@ -385,6 +387,10 @@ public class Main extends Base {
                 break;
             case 2:
                 size=3;
+                if(Config.Sensitivity >2.5f) {
+                    Config.Sensitivity = 2.5f;
+                    Config.save();
+                }
                 parallax = true;
                 texture = new Texture[size];
                 texture[0] = new Texture(Gdx.files.internal("data/ironhideN.png"));
@@ -411,6 +417,10 @@ public class Main extends Base {
                 break;
             case 3:
                 size=4;
+                if(Config.Sensitivity >3.0f) {
+                    Config.Sensitivity = 3.0f;
+                    Config.save();
+                }
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/hulkbuster0.png"));
@@ -434,6 +444,10 @@ public class Main extends Base {
                 break;
             case 16:
                 size=2;
+                if(Config.Sensitivity >2.0f) {
+                    Config.Sensitivity = 2.0f;
+                    Config.save();
+                }
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/drag1.png"));
@@ -466,6 +480,10 @@ public class Main extends Base {
                 break;
             case 20:
                 size=3;
+                if(Config.Sensitivity >2.0f) {
+                    Config.Sensitivity = 2.0f;
+                    Config.save();
+                }
                 parallax = true;
                 texture = new Texture[size];
                 texture[0]  = new Texture(Gdx.files.internal("data/wonder0.png"));
@@ -564,6 +582,81 @@ public class Main extends Base {
                 texture[1]  = new Texture(Gdx.files.internal("data/panda1.png"));
                 texture[2]  = new Texture(Gdx.files.internal("data/panda2.png"));
                 texture[3]  = new Texture(Gdx.files.internal("data/panda3.jpg"));
+                break;
+            case 32:
+                size=2;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/hulk0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/hulk1.jpg"));
+                break;
+            case 33:
+                size=3;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/wolv0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/wolv1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/wolv2.jpg"));
+                break;
+            case 34:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/forest0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/forest1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/forest2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/forest3.jpg"));
+                break;
+            case 35:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/bleach0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/bleach1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/bleach2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/bleach3.jpg"));
+                break;
+            case 36:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/guilty0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/guilty1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/guilty2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/guilty3.png"));
+                break;
+            case 37:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/kaori0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/kaori1.png"));
+                texture[2]  = new Texture(Gdx.files.internal("data/kaori2.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/kaori3.jpg"));
+                break;
+            case 38:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/arima0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/arima1.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/arima2.jpg"));
+                break;
+            case 39:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/champloo0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/champloo1.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/champloo2.jpg"));
+                break;
+            case 40:
+                size=4;
+                parallax = true;
+                texture = new Texture[size];
+                texture[0]  = new Texture(Gdx.files.internal("data/crown0.png"));
+                texture[1]  = new Texture(Gdx.files.internal("data/crown1.png"));
+                texture[3]  = new Texture(Gdx.files.internal("data/crown2.jpg"));
                 break;
             default:
                 size=1;

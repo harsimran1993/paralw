@@ -8,9 +8,9 @@ public class Config {
 	// Android have a lot of shit in shared preferences part.
 	// Just don't touch a name ))
 	public static Preferences preferences = null;// = Gdx.app.getPreferences("preferences");
-	public static boolean lockScreen=false,persistent = false,moving=false,backColorchange=false,useGyro=false;
+	public static boolean lockScreen=false,persistent = false,moving=false,backColorchange=false;//,useGyro=false;
 	public static String listTest = "0";
-	public static int fps=260,points = 0;
+	public static int fps=280,points = 0;
 	public static float backColor[] = {0,0,0},Sensitivity=2.0f;
     public static String promo="LWP#193#sin";
 
@@ -20,14 +20,14 @@ public class Config {
             if (!preferences.contains("checkBoxTest") ||
                     !preferences.contains("listTest") ||
                     !preferences.contains("moveBox")  ||
-                    !preferences.contains("gyroscope")||
+                    /*!preferences.contains("gyroscope")||*/
                     !preferences.contains("sensitivity"))
                 save();
 
             listTest = preferences.getString("listTest", "0");
             persistent = preferences.getBoolean("checkBoxTest", false);
             moving = preferences.getBoolean("moveBox", false);
-            useGyro = preferences.getBoolean("gyroscope",false);
+            //useGyro = preferences.getBoolean("gyroscope",false);
             Sensitivity = preferences.getFloat("sensitivity", 4.0f);
             //loadPoints();
         }
@@ -38,7 +38,7 @@ public class Config {
             preferences.putString("listTest", listTest);
             preferences.putBoolean("checkBoxTest", persistent);
             preferences.putBoolean("moveBox", moving);
-            preferences.putBoolean("gyroscope", useGyro);
+            //preferences.putBoolean("gyroscope", useGyro);
             preferences.putFloat("sensitivity",Sensitivity);
             preferences.flush();
         }

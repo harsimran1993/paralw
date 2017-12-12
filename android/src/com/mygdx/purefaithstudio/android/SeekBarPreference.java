@@ -19,8 +19,8 @@ import com.mygdx.purefaithstudio.Config;
 public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener {
 
     private SeekBar mSeekBar;
-    public static int maximum    = 100;
-    public static int interval   = 5;
+    public static int maximum    = 50;
+    public static int interval   = 1;
     private float oldValue = 40;
 
     public SeekBarPreference(Context context) {

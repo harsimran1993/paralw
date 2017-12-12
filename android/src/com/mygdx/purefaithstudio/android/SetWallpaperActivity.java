@@ -100,7 +100,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         editor.commit();*/
 		Config.points = prefs.getInt("points", 0);
         wp.setText("" + Config.points);
-        Config.useGyro = prefs.getBoolean("gyroscope",false);
+        //Config.useGyro = prefs.getBoolean("gyroscope",false);
         //colorPicker Collapse
         colorCollapser = (ImageButton) findViewById(R.id.colorCollapser);
         colorBackLayout = (LinearLayout) findViewById(R.id.colorBackLayout);
@@ -123,7 +123,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        if(!Config.useGyro){
+        /*if(!Config.useGyro){
 
             PackageManager packageManager = getPackageManager();
             if(packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)){
@@ -131,7 +131,7 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
                 editor.putBoolean("gyroscope",true);
                 editor.commit();
             }
-        }
+        }*/
         //ads
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
@@ -476,8 +476,8 @@ public class SetWallpaperActivity extends AppCompatActivity implements RewardedV
     public void contactUs(){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto","harsimran1994@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject here ex:- bug report");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "enter your message for us here");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "enter your message");
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 

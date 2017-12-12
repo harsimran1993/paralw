@@ -16,10 +16,10 @@
 			                android:summary="@string/settings_SetLockSummary"
 			                android:defaultValue="false" />
 
-		<CheckBoxPreference android:key="setGyro"
+		<!--CheckBoxPreference android:key="setGyro"
 							android:title="@string/settings_GyroTitle"
 							android:summary="@string/settings_GyroSummary"
-							android:defaultValue="false" />
+							android:defaultValue="false" /-->
 
     </PreferenceCategory>
 

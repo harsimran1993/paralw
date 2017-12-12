@@ -12,7 +12,7 @@
     <string name="settings_checkBoxTestSummary">Variation on effects with touch\n(Try multiple finger XD).</string>
     <string name="settings_listTestTitle">Live Wallpaper</string>
     <string name="settings_MoveBoxSummary">Variation on effects over a cyclic period.</string>
-    <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.</string>
+    <string name="settings_SetLockSummary">Set Live Wallpaper on Lock-Screen.\nFor devices that don\'t prompt this by deafualt.</string>
     <string name="settings_GyroTitle">Enable Gyroscope</string>
     <string name="settings_GyroSummary">keep disabled for accelerometer \n Double tap on wallpaper to re-centre axis.</string>
     <string name="settings_QATitle">Experiencing Black Screen?</string>
@@ -51,6 +51,15 @@
         <item>Jungle Book</item>
         <item>Dragon Ball</item>
         <item>Kung-Fu Panda</item>
+        <item>The Hulk</item>
+        <item>Wolverine</item>
+        <item>Winter Forest</item>
+        <item>Bleach</item>
+        <item>Guilty Crown</item>
+        <item>Your lie in April A</item>
+        <item>Your lie in April B</item>
+        <item>Samurai Champloo</item>
+        <item>A Guilty king</item>
     </string-array>
     <string-array name="settings_listTestEntryValues">
         <item>0</item>
@@ -85,6 +94,15 @@
         <item>29</item>
         <item>30</item>
         <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
     </string-array>
     <string-array name="image_ids">
         <item>@drawable/image9</item>
@@ -119,6 +137,15 @@
         <item>@drawable/image30</item>
         <item>@drawable/image32</item>
         <item>@drawable/image31</item>
+        <item>@drawable/image33</item>
+        <item>@drawable/image34</item>
+        <item>@drawable/image35</item>
+        <item>@drawable/image36</item>
+        <item>@drawable/image37</item>
+        <item>@drawable/image38</item>
+        <item>@drawable/image39</item>
+        <item>@drawable/image40</item>
+        <item>@drawable/image41</item>
     </string-array>
 
     <string name="settings_button_otherAppsTitle">Other Apps from author</string>
@@ -137,7 +164,7 @@
     <string name="setbckColor">Set Color</string>
     <string name="earn">Earn Points</string>
     <string name="WallPoints">Points:</string>
-    <string name="SeekCat">Accelerometer</string>
+    <string name="SeekCat">Gyroscope/Accelerometer</string>
     <string name="title_activity_galery">galery</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

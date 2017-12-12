@@ -2,6 +2,7 @@ package com.mygdx.purefaithstudio.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -16,12 +17,13 @@ public class LWP_Android extends AndroidLiveWallpaperService {
 	public void onCreateApplication () {
 		super.onCreateApplication();
 
-		SharedPreferences prefs = getApplicationContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
-		Config.useGyro = prefs.getBoolean("gyroscope",false);
+		PackageManager packageManager = getPackageManager();
+		//SharedPreferences prefs = getApplicationContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+		//Config.useGyro = prefs.getBoolean("gyroscope",false);
 		final AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useCompass = false;
 		config.useWakelock = false;
-		if(Config.useGyro) {
+		if(packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)){
 			config.useGyroscope = true;
 			config.useAccelerometer = false;
 		}

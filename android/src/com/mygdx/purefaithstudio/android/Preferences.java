@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @SuppressWarnings("deprecation")
 public class Preferences extends PreferenceActivity implements OnPreferenceChangeListener {
-	private CheckBoxPreference checkBoxTest,moveBox,setLock,useGyro;
+	private CheckBoxPreference checkBoxTest,moveBox,setLock;//,useGyro;
 	private ListPreference listTest;
     private int points=0;
 	private InterstitialAd mInterstitialAd;
@@ -60,9 +60,9 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
 		setLock.setChecked(Config.lockScreen);
 		setLock.setOnPreferenceChangeListener(this);
 
-		useGyro = (CheckBoxPreference) findPreference("setGyro");
+		/*useGyro = (CheckBoxPreference) findPreference("setGyro");
 		useGyro.setChecked(Config.useGyro);
-		useGyro.setOnPreferenceChangeListener(this);
+		useGyro.setOnPreferenceChangeListener(this);*/
 
 		listTest = (ListPreference) findPreference("listTest");
 		listTest.setValueIndex(Integer.parseInt(Config.listTest));
@@ -154,7 +154,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
             Toast.makeText(this, "please re-select a wallpaper from gallery!!", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if(preference == useGyro){
+        /*if(preference == useGyro){
 			Config.useGyro = (Boolean) newValue;
 			useGyro.setChecked(Config.useGyro);
 			Config.save();
@@ -167,7 +167,7 @@ public class Preferences extends PreferenceActivity implements OnPreferenceChang
             Toast.makeText(this, "please re-select a wallpaper from gallery!!", Toast.LENGTH_SHORT).show();
 			return true;
 
-		}
+		}*/
         if (preference == listTest) {
             points = Integer.parseInt(newValue.toString()) * 10;
             if( points >= (Config.points + Config.fps)){
