@@ -198,6 +198,18 @@ public class ParticleLayer {
                 pooleff.scaleEffect(0.3f);
                 effects.add(pooleff);
                 break;
+            case 38:
+                pep.atlasFile = "particle/pack.atlas";
+                assetm.load(snow, ParticleEffect.class, pep);
+                assetm.finishLoading();
+                PePool = new ParticleEffectPool[1];
+                pe = assetm.get(snow, ParticleEffect.class);
+                PePool[0] = new ParticleEffectPool(pe, 1, 5);
+                pooleff = PePool[0].obtain();
+                pooleff.setPosition(240, 800);
+                pooleff.scaleEffect(2.2f);
+                effects.add(pooleff);
+                break;
 
 		default:
             break;
